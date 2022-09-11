@@ -32,6 +32,7 @@ final class SolDataTests: XCTestCase {
 		}
 		let dataFetch = DataFetch(url: url)
 		let data = try await dataFetch.fetch()
+		XCTAssertGreaterThan(data.count, 0, "Expected some data.")
     }
 
 	// LinkFetcher
@@ -41,17 +42,9 @@ final class SolDataTests: XCTestCase {
 			XCTFail("Unexpectedly unable to create URL from string.")
 			return
 		}
-		let linkFetcher = LinkFetcher()
-		let links = try await linkFetcher.parseLinks(dir: url)
+		let links = try await LinkFetcher.parseLinks(dir: url)
 		XCTAssertGreaterThan(links.count, 0, "Expected at least one link.")
 		XCTAssertEqual(links.count, 11701)
 	}
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
 
 }
