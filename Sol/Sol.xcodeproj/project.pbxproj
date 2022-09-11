@@ -1,0 +1,922 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BA28CD20CC00684220 /* AppDelegate.swift */; };
+		DB17F6BD28CD20CC00684220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */; };
+		DB17F6BF28CD20CC00684220 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BE28CD20CC00684220 /* ViewController.swift */; };
+		DB17F6C228CD20CC00684220 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB17F6C028CD20CC00684220 /* Main.storyboard */; };
+		DB17F6C428CD20CD00684220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB17F6C328CD20CD00684220 /* Assets.xcassets */; };
+		DB17F6C728CD20CD00684220 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB17F6C528CD20CD00684220 /* LaunchScreen.storyboard */; };
+		DB17F6D228CD20CD00684220 /* SolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6D128CD20CD00684220 /* SolTests.swift */; };
+		DB17F6DC28CD20CD00684220 /* SolUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6DB28CD20CD00684220 /* SolUITests.swift */; };
+		DB17F6DE28CD20CD00684220 /* SolUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6DD28CD20CD00684220 /* SolUITestsLaunchTests.swift */; };
+		DB17F6F328CD21B400684220 /* SolData.docc in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6F228CD21B400684220 /* SolData.docc */; };
+		DB17F6F928CD21B500684220 /* SolData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB17F6EF28CD21B400684220 /* SolData.framework */; };
+		DB17F70028CD21B500684220 /* SolDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6FF28CD21B500684220 /* SolDataTests.swift */; };
+		DB17F70128CD21B500684220 /* SolData.h in Headers */ = {isa = PBXBuildFile; fileRef = DB17F6F128CD21B400684220 /* SolData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB17F70428CD21B500684220 /* SolData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB17F6EF28CD21B400684220 /* SolData.framework */; };
+		DB17F70528CD21B500684220 /* SolData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB17F6EF28CD21B400684220 /* SolData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DB17F70E28CD22AB00684220 /* DataFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F70D28CD22AB00684220 /* DataFetch.swift */; };
+		DB17F71028CD2B8D00684220 /* LinkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DB17F6CE28CD20CD00684220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB17F6AF28CD20CC00684220 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB17F6B628CD20CC00684220;
+			remoteInfo = Sol;
+		};
+		DB17F6D828CD20CD00684220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB17F6AF28CD20CC00684220 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB17F6B628CD20CC00684220;
+			remoteInfo = Sol;
+		};
+		DB17F6FA28CD21B500684220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB17F6AF28CD20CC00684220 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB17F6EE28CD21B400684220;
+			remoteInfo = SolData;
+		};
+		DB17F6FC28CD21B500684220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB17F6AF28CD20CC00684220 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB17F6B628CD20CC00684220;
+			remoteInfo = Sol;
+		};
+		DB17F70228CD21B500684220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB17F6AF28CD20CC00684220 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB17F6EE28CD21B400684220;
+			remoteInfo = SolData;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DB17F70928CD21B500684220 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DB17F70528CD21B500684220 /* SolData.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DB17F6B728CD20CC00684220 /* Sol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sol.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB17F6BA28CD20CC00684220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		DB17F6BE28CD20CC00684220 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DB17F6C128CD20CC00684220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DB17F6C328CD20CD00684220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DB17F6C628CD20CD00684220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DB17F6C828CD20CD00684220 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB17F6CD28CD20CD00684220 /* SolTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SolTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB17F6D128CD20CD00684220 /* SolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolTests.swift; sourceTree = "<group>"; };
+		DB17F6D728CD20CD00684220 /* SolUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SolUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB17F6DB28CD20CD00684220 /* SolUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolUITests.swift; sourceTree = "<group>"; };
+		DB17F6DD28CD20CD00684220 /* SolUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DB17F6EF28CD21B400684220 /* SolData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SolData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB17F6F128CD21B400684220 /* SolData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SolData.h; sourceTree = "<group>"; };
+		DB17F6F228CD21B400684220 /* SolData.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = SolData.docc; sourceTree = "<group>"; };
+		DB17F6F828CD21B500684220 /* SolDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SolDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB17F6FF28CD21B500684220 /* SolDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolDataTests.swift; sourceTree = "<group>"; };
+		DB17F70D28CD22AB00684220 /* DataFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetch.swift; sourceTree = "<group>"; };
+		DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkFetcher.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DB17F6B428CD20CC00684220 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F70428CD21B500684220 /* SolData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6CA28CD20CD00684220 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6D428CD20CD00684220 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6EC28CD21B400684220 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6F528CD21B500684220 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F6F928CD21B500684220 /* SolData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DB17F6AE28CD20CC00684220 = {
+			isa = PBXGroup;
+			children = (
+				DB17F6B928CD20CC00684220 /* Sol */,
+				DB17F6D028CD20CD00684220 /* SolTests */,
+				DB17F6DA28CD20CD00684220 /* SolUITests */,
+				DB17F6F028CD21B400684220 /* SolData */,
+				DB17F6FE28CD21B500684220 /* SolDataTests */,
+				DB17F6B828CD20CC00684220 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DB17F6B828CD20CC00684220 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F6B728CD20CC00684220 /* Sol.app */,
+				DB17F6CD28CD20CD00684220 /* SolTests.xctest */,
+				DB17F6D728CD20CD00684220 /* SolUITests.xctest */,
+				DB17F6EF28CD21B400684220 /* SolData.framework */,
+				DB17F6F828CD21B500684220 /* SolDataTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DB17F6B928CD20CC00684220 /* Sol */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F6BA28CD20CC00684220 /* AppDelegate.swift */,
+				DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */,
+				DB17F6BE28CD20CC00684220 /* ViewController.swift */,
+				DB17F6C028CD20CC00684220 /* Main.storyboard */,
+				DB17F6C328CD20CD00684220 /* Assets.xcassets */,
+				DB17F6C528CD20CD00684220 /* LaunchScreen.storyboard */,
+				DB17F6C828CD20CD00684220 /* Info.plist */,
+			);
+			path = Sol;
+			sourceTree = "<group>";
+		};
+		DB17F6D028CD20CD00684220 /* SolTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F6D128CD20CD00684220 /* SolTests.swift */,
+			);
+			path = SolTests;
+			sourceTree = "<group>";
+		};
+		DB17F6DA28CD20CD00684220 /* SolUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F6DB28CD20CD00684220 /* SolUITests.swift */,
+				DB17F6DD28CD20CD00684220 /* SolUITestsLaunchTests.swift */,
+			);
+			path = SolUITests;
+			sourceTree = "<group>";
+		};
+		DB17F6F028CD21B400684220 /* SolData */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F6F128CD21B400684220 /* SolData.h */,
+				DB17F6F228CD21B400684220 /* SolData.docc */,
+				DB17F70D28CD22AB00684220 /* DataFetch.swift */,
+				DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */,
+			);
+			path = SolData;
+			sourceTree = "<group>";
+		};
+		DB17F6FE28CD21B500684220 /* SolDataTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F6FF28CD21B500684220 /* SolDataTests.swift */,
+			);
+			path = SolDataTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DB17F6EA28CD21B400684220 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F70128CD21B500684220 /* SolData.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DB17F6B628CD20CC00684220 /* Sol */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB17F6E128CD20CD00684220 /* Build configuration list for PBXNativeTarget "Sol" */;
+			buildPhases = (
+				DB17F6B328CD20CC00684220 /* Sources */,
+				DB17F6B428CD20CC00684220 /* Frameworks */,
+				DB17F6B528CD20CC00684220 /* Resources */,
+				DB17F70928CD21B500684220 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB17F70328CD21B500684220 /* PBXTargetDependency */,
+			);
+			name = Sol;
+			productName = Sol;
+			productReference = DB17F6B728CD20CC00684220 /* Sol.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DB17F6CC28CD20CD00684220 /* SolTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB17F6E428CD20CD00684220 /* Build configuration list for PBXNativeTarget "SolTests" */;
+			buildPhases = (
+				DB17F6C928CD20CD00684220 /* Sources */,
+				DB17F6CA28CD20CD00684220 /* Frameworks */,
+				DB17F6CB28CD20CD00684220 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB17F6CF28CD20CD00684220 /* PBXTargetDependency */,
+			);
+			name = SolTests;
+			productName = SolTests;
+			productReference = DB17F6CD28CD20CD00684220 /* SolTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DB17F6D628CD20CD00684220 /* SolUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB17F6E728CD20CD00684220 /* Build configuration list for PBXNativeTarget "SolUITests" */;
+			buildPhases = (
+				DB17F6D328CD20CD00684220 /* Sources */,
+				DB17F6D428CD20CD00684220 /* Frameworks */,
+				DB17F6D528CD20CD00684220 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB17F6D928CD20CD00684220 /* PBXTargetDependency */,
+			);
+			name = SolUITests;
+			productName = SolUITests;
+			productReference = DB17F6D728CD20CD00684220 /* SolUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		DB17F6EE28CD21B400684220 /* SolData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB17F70628CD21B500684220 /* Build configuration list for PBXNativeTarget "SolData" */;
+			buildPhases = (
+				DB17F6EA28CD21B400684220 /* Headers */,
+				DB17F6EB28CD21B400684220 /* Sources */,
+				DB17F6EC28CD21B400684220 /* Frameworks */,
+				DB17F6ED28CD21B400684220 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SolData;
+			productName = SolData;
+			productReference = DB17F6EF28CD21B400684220 /* SolData.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DB17F6F728CD21B500684220 /* SolDataTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB17F70A28CD21B500684220 /* Build configuration list for PBXNativeTarget "SolDataTests" */;
+			buildPhases = (
+				DB17F6F428CD21B500684220 /* Sources */,
+				DB17F6F528CD21B500684220 /* Frameworks */,
+				DB17F6F628CD21B500684220 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB17F6FB28CD21B500684220 /* PBXTargetDependency */,
+				DB17F6FD28CD21B500684220 /* PBXTargetDependency */,
+			);
+			name = SolDataTests;
+			productName = SolDataTests;
+			productReference = DB17F6F828CD21B500684220 /* SolDataTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DB17F6AF28CD20CC00684220 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					DB17F6B628CD20CC00684220 = {
+						CreatedOnToolsVersion = 14.0;
+					};
+					DB17F6CC28CD20CD00684220 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = DB17F6B628CD20CC00684220;
+					};
+					DB17F6D628CD20CD00684220 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = DB17F6B628CD20CC00684220;
+					};
+					DB17F6EE28CD21B400684220 = {
+						CreatedOnToolsVersion = 14.0;
+					};
+					DB17F6F728CD21B500684220 = {
+						CreatedOnToolsVersion = 14.0;
+						TestTargetID = DB17F6B628CD20CC00684220;
+					};
+				};
+			};
+			buildConfigurationList = DB17F6B228CD20CC00684220 /* Build configuration list for PBXProject "Sol" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DB17F6AE28CD20CC00684220;
+			productRefGroup = DB17F6B828CD20CC00684220 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DB17F6B628CD20CC00684220 /* Sol */,
+				DB17F6CC28CD20CD00684220 /* SolTests */,
+				DB17F6D628CD20CD00684220 /* SolUITests */,
+				DB17F6EE28CD21B400684220 /* SolData */,
+				DB17F6F728CD21B500684220 /* SolDataTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DB17F6B528CD20CC00684220 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F6C728CD20CD00684220 /* LaunchScreen.storyboard in Resources */,
+				DB17F6C428CD20CD00684220 /* Assets.xcassets in Resources */,
+				DB17F6C228CD20CC00684220 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6CB28CD20CD00684220 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6D528CD20CD00684220 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6ED28CD21B400684220 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6F628CD21B500684220 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DB17F6B328CD20CC00684220 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F6BF28CD20CC00684220 /* ViewController.swift in Sources */,
+				DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */,
+				DB17F6BD28CD20CC00684220 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6C928CD20CD00684220 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F6D228CD20CD00684220 /* SolTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6D328CD20CD00684220 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F6DC28CD20CD00684220 /* SolUITests.swift in Sources */,
+				DB17F6DE28CD20CD00684220 /* SolUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6EB28CD21B400684220 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F70E28CD22AB00684220 /* DataFetch.swift in Sources */,
+				DB17F6F328CD21B400684220 /* SolData.docc in Sources */,
+				DB17F71028CD2B8D00684220 /* LinkFetcher.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB17F6F428CD21B500684220 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB17F70028CD21B500684220 /* SolDataTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DB17F6CF28CD20CD00684220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB17F6B628CD20CC00684220 /* Sol */;
+			targetProxy = DB17F6CE28CD20CD00684220 /* PBXContainerItemProxy */;
+		};
+		DB17F6D928CD20CD00684220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB17F6B628CD20CC00684220 /* Sol */;
+			targetProxy = DB17F6D828CD20CD00684220 /* PBXContainerItemProxy */;
+		};
+		DB17F6FB28CD21B500684220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB17F6EE28CD21B400684220 /* SolData */;
+			targetProxy = DB17F6FA28CD21B500684220 /* PBXContainerItemProxy */;
+		};
+		DB17F6FD28CD21B500684220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB17F6B628CD20CC00684220 /* Sol */;
+			targetProxy = DB17F6FC28CD21B500684220 /* PBXContainerItemProxy */;
+		};
+		DB17F70328CD21B500684220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB17F6EE28CD21B400684220 /* SolData */;
+			targetProxy = DB17F70228CD21B500684220 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DB17F6C028CD20CC00684220 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB17F6C128CD20CC00684220 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DB17F6C528CD20CD00684220 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB17F6C628CD20CD00684220 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DB17F6DF28CD20CD00684220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DB17F6E028CD20CD00684220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DB17F6E228CD20CD00684220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sol/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Sol;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levigroker.Sol;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DB17F6E328CD20CD00684220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sol/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Sol;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levigroker.Sol;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DB17F6E528CD20CD00684220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levogroker.SolTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sol.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Sol";
+			};
+			name = Debug;
+		};
+		DB17F6E628CD20CD00684220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levogroker.SolTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sol.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Sol";
+			};
+			name = Release;
+		};
+		DB17F6E828CD20CD00684220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levogroker.SolUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Sol;
+			};
+			name = Debug;
+		};
+		DB17F6E928CD20CD00684220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levogroker.SolUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Sol;
+			};
+			name = Release;
+		};
+		DB17F70728CD21B500684220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levigroker.SolData;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		DB17F70828CD21B500684220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levigroker.SolData;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DB17F70B28CD21B500684220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levigroker.SolDataTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sol.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Sol";
+			};
+			name = Debug;
+		};
+		DB17F70C28CD21B500684220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F8K3TSV9QH;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.levigroker.SolDataTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sol.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Sol";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DB17F6B228CD20CC00684220 /* Build configuration list for PBXProject "Sol" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB17F6DF28CD20CD00684220 /* Debug */,
+				DB17F6E028CD20CD00684220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB17F6E128CD20CD00684220 /* Build configuration list for PBXNativeTarget "Sol" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB17F6E228CD20CD00684220 /* Debug */,
+				DB17F6E328CD20CD00684220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB17F6E428CD20CD00684220 /* Build configuration list for PBXNativeTarget "SolTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB17F6E528CD20CD00684220 /* Debug */,
+				DB17F6E628CD20CD00684220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB17F6E728CD20CD00684220 /* Build configuration list for PBXNativeTarget "SolUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB17F6E828CD20CD00684220 /* Debug */,
+				DB17F6E928CD20CD00684220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB17F70628CD21B500684220 /* Build configuration list for PBXNativeTarget "SolData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB17F70728CD21B500684220 /* Debug */,
+				DB17F70828CD21B500684220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB17F70A28CD21B500684220 /* Build configuration list for PBXNativeTarget "SolDataTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB17F70B28CD21B500684220 /* Debug */,
+				DB17F70C28CD21B500684220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DB17F6AF28CD20CC00684220 /* Project object */;
+}
