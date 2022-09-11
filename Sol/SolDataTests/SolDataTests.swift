@@ -47,4 +47,19 @@ final class SolDataTests: XCTestCase {
 		XCTAssertEqual(links.count, 11701)
 	}
 
+	// FileSystemDataStore
+
+	func testFileSystemDataStore100() async throws {
+		let tempDir = FileManager.default.temporaryDirectory
+		let dataStore = FileSystemDataStore(rootDir: tempDir)
+		guard let outData = "This is some test data".data(using: .utf8) else {
+			XCTFail("Unexpectedly unable to create test data.")
+			return
+		}
+		let key = "test100"
+		try await dataStore.write(key: key, item: outData)
+		let inData = try await dataStore.read(key: key)
+		XCTAssertEqual(outData, inData)
+		try await dataStore.delete(key: key)
+	}
 }
