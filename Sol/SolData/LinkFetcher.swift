@@ -27,6 +27,7 @@ struct LinkFetcher {
 			}
 			// Parse the HTML using regex for all hrefs
 			// NOTE: This is not ideal in that we could be more robust by using an acutal HTML parsing engine, but considering the static nature of the expected content, the lack of a Foundataion provided HTML parser, and the desire to limit external dependencies, I've opted to use this regular expression approach.
+			// See: https://blog.codinghorror.com/parsing-html-the-cthulhu-way/
 			let linkMatcher = #/<a href="(?<url>.*?)">.*?</a>/#
 			// Our regex captures the link as a string, so we convert it to a URL object, if possible.
 			let links = htmlContent.matches(of: linkMatcher).compactMap { match -> URL? in
