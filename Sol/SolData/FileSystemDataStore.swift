@@ -42,9 +42,24 @@ struct FileSystemDataStore {
 
 extension FileSystemDataStore: DataStore {
 
-	func read(key: String) async throws -> Data {
+	func keys() async throws -> Array<String> {
+		let task = Task { () -> Array<String> in
+			let files = try manager.contentsOfDirectory(at: rootDir, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+			let keys = files.map { $0.lastPathComponent }.sorted()
+			return keys
+		}
+		return try await task.value
+	}
+
+	func exists(key: String) async throws -> Bool {
 		let url = try urlFor(key: key)
+		let path = url.path(percentEncoded: false)
+		return manager.fileExists(atPath: path)
+	}
+
+	func read(key: String) async throws -> Data {
 		let task = Task { () -> Data in
+			let url = try urlFor(key: key)
 			let data = try Data(contentsOf:url)
 			guard data.count > 0 else {
 				throw FileSystemDataStoreError.noData
@@ -55,8 +70,8 @@ extension FileSystemDataStore: DataStore {
 	}
 
 	func write(key: String, item: Data) async throws {
-		let url = try urlFor(key: key)
 		let task = Task {
+			let url = try urlFor(key: key)
 			let dir = url.deletingLastPathComponent()
 			try manager.createDirectory(at: dir, withIntermediateDirectories: true)
 			try item.write(to: url, options: .atomic)
@@ -65,11 +80,10 @@ extension FileSystemDataStore: DataStore {
 	}
 
 	func delete(key: String) async throws {
-		let url = try urlFor(key: key)
 		let task = Task {
+			let url = try urlFor(key: key)
 			try manager.removeItem(at:url)
 		}
 		return try await task.value
 	}
-
 }
