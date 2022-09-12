@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os
 
 struct FileSystemDataStore {
 
@@ -19,6 +20,13 @@ struct FileSystemDataStore {
 
 	init(rootDir: URL) {
 		self.rootDir = rootDir
+		do {
+			try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
+			Logger().info("Created DataStore directory: '\(rootDir.path(percentEncoded: false))'")
+		}
+		catch {
+			Logger().error("Unable to create DataStore directory '\(rootDir.path(percentEncoded: false))'. Error: \(error)")
+		}
 	}
 
 	func urlFor(key: String) throws -> URL {
@@ -49,6 +57,8 @@ extension FileSystemDataStore: DataStore {
 	func write(key: String, item: Data) async throws {
 		let url = try urlFor(key: key)
 		let task = Task {
+			let dir = url.deletingLastPathComponent()
+			try manager.createDirectory(at: dir, withIntermediateDirectories: true)
 			try item.write(to: url, options: .atomic)
 		}
 		return try await task.value
