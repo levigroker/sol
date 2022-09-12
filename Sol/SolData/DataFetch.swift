@@ -14,6 +14,7 @@ struct DataFetch {
 
 	enum DataFetchError: Error {
 		case invalidServerResponse
+		case invalidServerStatus(code: Int)
 	}
 
 	let url: URL
@@ -24,9 +25,11 @@ struct DataFetch {
 
 	func fetch() async throws -> Data {
 		let (data, response) = try await URLSession.shared.data(from: url)
-		guard let httpResponse = response as? HTTPURLResponse,
-			  httpResponse.statusCode == 200 /* OK */ else {
+		guard let httpResponse = response as? HTTPURLResponse else {
 			throw DataFetchError.invalidServerResponse
+		}
+		guard httpResponse.statusCode == 200 else {
+			throw DataFetchError.invalidServerStatus(code: httpResponse.statusCode)
 		}
 		return data
 	}
