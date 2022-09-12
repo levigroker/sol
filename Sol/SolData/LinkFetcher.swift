@@ -17,11 +17,11 @@ struct LinkFetcher {
 	 Parse links from the given "directory" URL and return them in an array, relative to the given URL.
 	 */
 	static func parseLinks(dir: URL) async throws -> Array<URL> {
-		// Fetch the HTML data and convert to a utf8 string
-		let dataFetch = DataFetch(url: dir)
-		let htmlData = try await dataFetch.fetch()
-		// Perform the parsing asynchronously
+		// Perform asynchronously
 		let task = Task {
+			// Fetch the HTML data and convert to a utf8 string
+			let dataFetch = DataFetch(url: dir)
+			let htmlData = try await dataFetch.fetch()
 			guard let htmlContent = String(data: htmlData, encoding: .utf8) else {
 				throw LinkFetcherError.invalidHTMLContent
 			}
