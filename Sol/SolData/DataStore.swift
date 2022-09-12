@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol DataStore<Item> {
-	associatedtype Item: Codable & Hashable
-
-	func read(key: String) async throws -> Item
-	func write(key: String, item: Item) async throws
+protocol DataStore {
+	func keys() async throws -> Array<String>
+	func exists(key: String) async throws -> Bool
+	func read(key: String) async throws -> Data
+	func write(key: String, item: Data) async throws
 	func delete(key: String) async throws
 }
