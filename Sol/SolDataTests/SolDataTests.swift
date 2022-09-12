@@ -62,4 +62,44 @@ final class SolDataTests: XCTestCase {
 		XCTAssertEqual(outData, inData)
 		try await dataStore.delete(key: key)
 	}
+
+	// SDODataManager
+
+	func testSDODataManagerImageNameRegex100()  throws {
+		guard let date = SDODataManager.fullDateFormatter.date(from: "20220909") else {
+			XCTFail("Unexpectedly unable to create test date.")
+			return
+		}
+		let nameRegex = SDODataManager.imageNameRegex(date: date, imageSet: .i0171, resolution: .x4096, pfss: true)
+		let badMatches = ["", " ", "\t", "raspberries", "124_456_789_012pfss.jpg", "20210909_034658_4096_0171pfss.jpg", "20220909_034658_4096_0171.jpg", "20220909_034658_4096_0131pfss.jpg", "20220909_034658_4096_0171pfss.JPG"]
+		for badMatch in badMatches {
+			let match = try nameRegex.wholeMatch(in: badMatch)
+			XCTAssertNil(match)
+		}
+		let goodMatches = [
+			"20220909_034258_4096_0171pfss.jpg",
+			"20220909_094634_4096_0171pfss.jpg",
+			"20220909_214158_4096_0171pfss.jpg",
+		]
+		for goodMatch in goodMatches {
+			let match = goodMatch.wholeMatch(of: nameRegex)
+			XCTAssertNotNil(match)
+			guard let output = match?.output else {
+				XCTFail("Unexpectedly unable to get string from match output.")
+				return
+			}
+			let matchOut = String(output)
+			XCTAssertEqual(goodMatch, matchOut)
+		}
+	}
+
+	func testSDODataManagerImages100() async throws {
+		guard let date = SDODataManager.fullDateFormatter.date(from: "20220909") else {
+			XCTFail("Unexpectedly unable to create test date.")
+			return
+		}
+		let manager = SDODataManager()
+		let (imageFiles, _) = try await manager.images(date: date, imageSet: .i0094, resolution: .x512)
+		XCTAssertTrue(imageFiles.count > 0)
+	}
 }

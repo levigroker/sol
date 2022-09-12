@@ -24,7 +24,7 @@
 		DB17F70528CD21B500684220 /* SolData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB17F6EF28CD21B400684220 /* SolData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DB17F70E28CD22AB00684220 /* DataFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F70D28CD22AB00684220 /* DataFetch.swift */; };
 		DB17F71028CD2B8D00684220 /* LinkFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */; };
-		DB17F71228CD61EC00684220 /* SDOImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71128CD61EC00684220 /* SDOImageFetcher.swift */; };
+		DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71128CD61EC00684220 /* SDODataManager.swift */; };
 		DB17F71428CD628A00684220 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71328CD628A00684220 /* DataStore.swift */; };
 		DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */; };
 /* End PBXBuildFile section */
@@ -102,7 +102,7 @@
 		DB17F6FF28CD21B500684220 /* SolDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolDataTests.swift; sourceTree = "<group>"; };
 		DB17F70D28CD22AB00684220 /* DataFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFetch.swift; sourceTree = "<group>"; };
 		DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkFetcher.swift; sourceTree = "<group>"; };
-		DB17F71128CD61EC00684220 /* SDOImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDOImageFetcher.swift; sourceTree = "<group>"; };
+		DB17F71128CD61EC00684220 /* SDODataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDODataManager.swift; sourceTree = "<group>"; };
 		DB17F71328CD628A00684220 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemDataStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,13 +206,13 @@
 		DB17F6F028CD21B400684220 /* SolData */ = {
 			isa = PBXGroup;
 			children = (
-				DB17F6F128CD21B400684220 /* SolData.h */,
-				DB17F6F228CD21B400684220 /* SolData.docc */,
 				DB17F70D28CD22AB00684220 /* DataFetch.swift */,
-				DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */,
-				DB17F71128CD61EC00684220 /* SDOImageFetcher.swift */,
 				DB17F71328CD628A00684220 /* DataStore.swift */,
 				DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */,
+				DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */,
+				DB17F71128CD61EC00684220 /* SDODataManager.swift */,
+				DB17F6F228CD21B400684220 /* SolData.docc */,
+				DB17F6F128CD21B400684220 /* SolData.h */,
 			);
 			path = SolData;
 			sourceTree = "<group>";
@@ -459,7 +459,7 @@
 				DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */,
 				DB17F70E28CD22AB00684220 /* DataFetch.swift in Sources */,
 				DB17F6F328CD21B400684220 /* SolData.docc in Sources */,
-				DB17F71228CD61EC00684220 /* SDOImageFetcher.swift in Sources */,
+				DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */,
 				DB17F71428CD628A00684220 /* DataStore.swift in Sources */,
 				DB17F71028CD2B8D00684220 /* LinkFetcher.swift in Sources */,
 			);
