@@ -27,6 +27,7 @@
 		DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71128CD61EC00684220 /* SDODataManager.swift */; };
 		DB17F71428CD628A00684220 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71328CD628A00684220 /* DataStore.swift */; };
 		DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */; };
+		DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71928D0231A00684220 /* ImageCache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		DB17F71128CD61EC00684220 /* SDODataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDODataManager.swift; sourceTree = "<group>"; };
 		DB17F71328CD628A00684220 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemDataStore.swift; sourceTree = "<group>"; };
+		DB17F71928D0231A00684220 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				DB17F71128CD61EC00684220 /* SDODataManager.swift */,
 				DB17F6F228CD21B400684220 /* SolData.docc */,
 				DB17F6F128CD21B400684220 /* SolData.h */,
+				DB17F71928D0231A00684220 /* ImageCache.swift */,
 			);
 			path = SolData;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				DB17F70E28CD22AB00684220 /* DataFetch.swift in Sources */,
 				DB17F6F328CD21B400684220 /* SolData.docc in Sources */,
 				DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */,
+				DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */,
 				DB17F71428CD628A00684220 /* DataStore.swift in Sources */,
 				DB17F71028CD2B8D00684220 /* LinkFetcher.swift in Sources */,
 			);
