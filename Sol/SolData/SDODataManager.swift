@@ -70,7 +70,7 @@ class SDODataManager {
 	func images(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws -> (Array<String>, DataStore) {
 		// Create the regular expression to match our desired image names
 		let regex = Self.imageNameRegex(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
-		Logger().info("Looking for images with date '\(date)' imageSet: '\(imageSet.rawValue)' resolution: '\(resolution.rawValue)' pfss: '\(pfss ? "true" : "false")'")
+		Logger().info("Looking for images with date '\(Self.fullDateFormatter.string(from: date))' imageSet: '\(imageSet.rawValue)' resolution: '\(resolution.rawValue)' pfss: '\(pfss ? "true" : "false")'")
 
 		// Get the listing of all images for the given day
 		let remoteImages = try await remoteImagesFor(date: date)
