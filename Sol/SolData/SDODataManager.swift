@@ -126,17 +126,25 @@ class SDODataManager {
 	 */
 	func remoteImagesFor(date: Date) async throws -> [String: URL] {
 		let key = Self.fullDateFormatter.string(from: date)
-		// If the desired listing is for the current day, do not use a cached version as it is updated throughout the day.
-		// If the date is not today then we can use a cached file, if we have one.
 		let today = Self.fullDateFormatter.string(from: Date())
-		if key != today, let existingListingFile = remoteListings[key] {
+
+		// If the desired listing is for the current day, we need to refetch it, as the listing is updated throughout the day.
+		if key == today {
+			return try await remoteListingFor(date: date)
+		}
+
+		// Use a cached listing file, if we have one.
+		if let existingListingFile = remoteListings[key] {
 			return try await readListingsFile(existingListingFile)
 		}
 
-		// Not using a locally cached listing file, so let's go get it and cache it
-		let (listingFile, links) = try await cacheRemoteListingFor(date: date, to: dataStoreRootDir)
+		// The desired listing is not for today and not already cached, so
+		// fetch and cache the listing
+		let listing = try await remoteListingFor(date: date)
+		let listingFile = try await cacheRemote(listing: listing, to: dataStoreRootDir, for: date)
 		remoteListings[key] = listingFile
-		return links
+
+		return listing
 	}
 
 	/// Reads the listing file from the given URL
@@ -285,29 +293,36 @@ class SDODataManager {
 		return [:]
 	}
 
-	/// Fetches the remote listing for the given date and writes the results to a local file in the given directory
+	/// Fetches the remote listing for the given date
 	///	- parameter date: The Date to get the listing of
-	///	- parameter to: A URL representing the directory to save the cached listing file
-	/// - returns: A tuple whose first element is the URL of the resulting cache file, and the second is the dictionary of links mapped by filename
-	func cacheRemoteListingFor(date: Date, to dir: URL) async throws -> (URL, [String: URL]) {
+	/// - returns: A dictionary of links mapped by filename
+	func remoteListingFor(date: Date) async throws -> [String: URL] {
 		let remoteDir = try remoteImageURLFor(date: date)
 		// Fetch the links from the remote directory, and map them by filename
 		let links = try await LinkFetcher.parseLinks(dir: remoteDir).reduce(into: Dictionary<String,URL>()) { partialResult, url in
 			let filename = url.lastPathComponent
 			partialResult[filename] = url
 		}
+		return links
+	}
+
+	/// Caches the remote listing for the given date to a local file in the given directory
+	///	- parameter listing: A dictionary of links mapped by filename
+	///	- parameter to: A URL representing the directory to save the cached listing file
+	///	- parameter date: A Date representing the day of the listing
+	/// - returns: A URL of the resulting cache file
+	func cacheRemote(listing: [String: URL], to dir: URL, for date: Date) async throws -> URL {
 		// Cache the listing into a local file
 		let task = Task {
 			// Write out the dictionary listing to file
-			let data = try JSONEncoder().encode(links)
+			let data = try JSONEncoder().encode(listing)
 			let key = Self.fullDateFormatter.string(from: date)
 			let filename = "\(key)\(Self.remoteListingFileSuffix)"
 			let file = dir.appending(path: filename, directoryHint:.notDirectory)
 			try data.write(to: file, options: .atomic)
 			return file
 		}
-		let file = try await task.value
-		return (file, links)
+		return try await task.value
 	}
 }
 
