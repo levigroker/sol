@@ -28,6 +28,7 @@
 		DB17F71428CD628A00684220 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71328CD628A00684220 /* DataStore.swift */; };
 		DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */; };
 		DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71928D0231A00684220 /* ImageCache.swift */; };
+		DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71B28D03F5900684220 /* AboutViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		DB17F71328CD628A00684220 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemDataStore.swift; sourceTree = "<group>"; };
 		DB17F71928D0231A00684220 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		DB17F71B28D03F5900684220 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 			children = (
 				DB17F6BA28CD20CC00684220 /* AppDelegate.swift */,
 				DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */,
+				DB17F71B28D03F5900684220 /* AboutViewController.swift */,
 				DB17F6BE28CD20CC00684220 /* ViewController.swift */,
 				DB17F6C028CD20CC00684220 /* Main.storyboard */,
 				DB17F6C328CD20CD00684220 /* Assets.xcassets */,
@@ -434,6 +437,7 @@
 			files = (
 				DB17F6BF28CD20CC00684220 /* ViewController.swift in Sources */,
 				DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */,
+				DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */,
 				DB17F6BD28CD20CC00684220 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

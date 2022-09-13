@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "SDO_Logo_flat_lg.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
