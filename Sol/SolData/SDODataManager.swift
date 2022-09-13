@@ -15,8 +15,11 @@ class SDODataManager {
 		case badURL
 	}
 
+	// Unless otherwise stated, ImageSets:
+	//  - do not contain 3072 resolution
+	//  - do contain pfss variants
 	enum ImageSet: String {
-		case i0094 = "0094"
+		case i0094 = "0094" // no 256 resolution
 		case i0131 = "0131"
 		case i0171 = "0171"
 		case i0193 = "0193"
