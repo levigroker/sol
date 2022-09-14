@@ -9,7 +9,7 @@ import Foundation
 import RegexBuilder
 import os
 
-class SDODataManager {
+public class SDODataManager {
 
 	enum SDODataManagerError: Error {
 		case badURL
@@ -18,7 +18,7 @@ class SDODataManager {
 	// Unless otherwise stated, ImageSets:
 	//  - do not contain 3072 resolution
 	//  - do contain pfss variants
-	enum ImageSet: String {
+	public enum ImageSet: String, CaseIterable {
 		case i0094 = "0094" // no 256 resolution
 		case i0131 = "0131"
 		case i0171 = "0171"
@@ -46,9 +46,36 @@ class SDODataManager {
 		case i211193171n = "211193171n" // no pfss variant, contains 3072 resolution
 		// Appears to be the same as 211193171
 		case i211193171rg = "211193171rg" // no pfss variant, contains 3072 resolution
+
+		public func name() -> String {
+			switch self {
+				case .i0094: return "AIA 94 Å"
+				case .i0131: return "AIA 131 Å"
+				case .i0171: return "AIA 171 Å"
+				case .i0193: return "AIA 193 Å"
+				case .i0211: return "AIA 221 Å"
+				case .i0304: return "AIA 304 Å"
+				case .i0335: return "AIA 335 Å"
+				case .i1600: return "AIA 1600 Å"
+				case .i1700: return "AIA 1700 Å"
+				case .i4500: return "AIA 4500 Å"
+				case .iHMI171: return "AIA 171 Å & HMIB"
+				case .iHMIB: return "HMI Magnetogram"
+				case .iHMII: return "HMI Intensitygram"
+				case .iHMID: return "HMI Dopplergram"
+				case .iHMIBC: return "HMI Colorized Magnetogram"
+				case .iHMIIF: return "HMI Intensitygram - Flattened"
+				case .iHMIIC: return "HMI Intensitygram - Colored"
+				case .i094335193: return "AIA 94 Å, 335 Å, 193 Å"
+				case .i304211171: return "AIA 304 Å, 211 Å, 171 Å"
+				case .i211193171: return "AIA 211 Å, 193 Å, 171 Å"
+				case .i211193171n: return "AIA 211 Å, 193 Å, 171 Å n"
+				case .i211193171rg: return "AIA 211 Å, 193 Å, 171 Å rg"
+			}
+		}
 	}
 
-	enum Resolution: String {
+	public enum Resolution: String, CaseIterable {
 		case x256 = "256"
 		case x512 = "512"
 		case x1024 = "1024"
@@ -302,7 +329,7 @@ class SDODataManager {
 	func remoteListingFor(date: Date) async throws -> [String: URL] {
 		let remoteDir = try remoteImageURLFor(date: date)
 		// Fetch the links from the remote directory, and map them by filename
-		let links = try await LinkFetcher.parseLinks(dir: remoteDir).reduce(into: Dictionary<String,URL>()) { partialResult, url in
+		let links = try await LinkFetcher.parseLinks(dir: remoteDir).reduce(into: [String: URL]()) { partialResult, url in
 			let filename = url.lastPathComponent
 			partialResult[filename] = url
 		}

@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB06A5A928D177E100C67598 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB06A5A828D177E100C67598 /* Settings.swift */; };
 		DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BA28CD20CC00684220 /* AppDelegate.swift */; };
 		DB17F6BD28CD20CC00684220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */; };
-		DB17F6BF28CD20CC00684220 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BE28CD20CC00684220 /* ViewController.swift */; };
+		DB17F6BF28CD20CC00684220 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BE28CD20CC00684220 /* MainViewController.swift */; };
 		DB17F6C228CD20CC00684220 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB17F6C028CD20CC00684220 /* Main.storyboard */; };
 		DB17F6C428CD20CD00684220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB17F6C328CD20CD00684220 /* Assets.xcassets */; };
 		DB17F6C728CD20CD00684220 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB17F6C528CD20CD00684220 /* LaunchScreen.storyboard */; };
@@ -29,6 +30,7 @@
 		DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */; };
 		DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71928D0231A00684220 /* ImageCache.swift */; };
 		DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71B28D03F5900684220 /* AboutViewController.swift */; };
+		DBEE1C4628D0E50B00BA3E2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,10 +86,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DB06A5A828D177E100C67598 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DB17F6B728CD20CC00684220 /* Sol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB17F6BA28CD20CC00684220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DB17F6BE28CD20CC00684220 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DB17F6BE28CD20CC00684220 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		DB17F6C128CD20CC00684220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DB17F6C328CD20CD00684220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB17F6C628CD20CD00684220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -109,6 +112,7 @@
 		DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemDataStore.swift; sourceTree = "<group>"; };
 		DB17F71928D0231A00684220 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		DB17F71B28D03F5900684220 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +156,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB06A5AA28D18FD500C67598 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				DB17F71B28D03F5900684220 /* AboutViewController.swift */,
+				DB17F6BA28CD20CC00684220 /* AppDelegate.swift */,
+				DB17F6BE28CD20CC00684220 /* MainViewController.swift */,
+				DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */,
+				DB06A5A828D177E100C67598 /* Settings.swift */,
+				DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		DB17F6AE28CD20CC00684220 = {
 			isa = PBXGroup;
 			children = (
@@ -179,14 +196,11 @@
 		DB17F6B928CD20CC00684220 /* Sol */ = {
 			isa = PBXGroup;
 			children = (
-				DB17F6BA28CD20CC00684220 /* AppDelegate.swift */,
-				DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */,
-				DB17F71B28D03F5900684220 /* AboutViewController.swift */,
-				DB17F6BE28CD20CC00684220 /* ViewController.swift */,
-				DB17F6C028CD20CC00684220 /* Main.storyboard */,
+				DB06A5AA28D18FD500C67598 /* Source */,
 				DB17F6C328CD20CD00684220 /* Assets.xcassets */,
-				DB17F6C528CD20CD00684220 /* LaunchScreen.storyboard */,
 				DB17F6C828CD20CD00684220 /* Info.plist */,
+				DB17F6C528CD20CD00684220 /* LaunchScreen.storyboard */,
+				DB17F6C028CD20CC00684220 /* Main.storyboard */,
 			);
 			path = Sol;
 			sourceTree = "<group>";
@@ -435,9 +449,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB17F6BF28CD20CC00684220 /* ViewController.swift in Sources */,
+				DB06A5A928D177E100C67598 /* Settings.swift in Sources */,
+				DB17F6BF28CD20CC00684220 /* MainViewController.swift in Sources */,
 				DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */,
 				DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */,
+				DBEE1C4628D0E50B00BA3E2B /* SettingsView.swift in Sources */,
 				DB17F6BD28CD20CC00684220 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
