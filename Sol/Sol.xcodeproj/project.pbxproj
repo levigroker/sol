@@ -29,7 +29,6 @@
 		DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71128CD61EC00684220 /* SDODataManager.swift */; };
 		DB17F71428CD628A00684220 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71328CD628A00684220 /* DataStore.swift */; };
 		DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */; };
-		DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71928D0231A00684220 /* ImageCache.swift */; };
 		DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71B28D03F5900684220 /* AboutViewController.swift */; };
 		DBEE1C4628D0E50B00BA3E2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -112,7 +111,6 @@
 		DB17F71128CD61EC00684220 /* SDODataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDODataManager.swift; sourceTree = "<group>"; };
 		DB17F71328CD628A00684220 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemDataStore.swift; sourceTree = "<group>"; };
-		DB17F71928D0231A00684220 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		DB17F71B28D03F5900684220 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -230,7 +228,6 @@
 				DB17F70D28CD22AB00684220 /* DataFetch.swift */,
 				DB17F71328CD628A00684220 /* DataStore.swift */,
 				DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */,
-				DB17F71928D0231A00684220 /* ImageCache.swift */,
 				DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */,
 				DB17F71128CD61EC00684220 /* SDODataManager.swift */,
 				DB06A5AD28D2C9C900C67598 /* SDOImage.swift */,
@@ -530,7 +527,6 @@
 				DB06A5AE28D2C9C900C67598 /* SDOImage.swift in Sources */,
 				DB17F6F328CD21B400684220 /* SolData.docc in Sources */,
 				DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */,
-				DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */,
 				DB17F71428CD628A00684220 /* DataStore.swift in Sources */,
 				DB17F71028CD2B8D00684220 /* LinkFetcher.swift in Sources */,
 			);
