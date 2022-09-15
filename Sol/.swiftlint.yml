@@ -20,7 +20,8 @@ whitelist_rules:
   - closing_brace
 
   # Closure bodies should not span too many lines.
-  - closure_body_length
+  # SwiftUI
+  #  - closure_body_length
 
   # Closure end should have the same indentation as the line that started it.
   - closure_end_indentation
@@ -239,7 +240,8 @@ whitelist_rules:
   - legacy_random
 
   # Let and var should be separated from other statements by a blank line.
-  - let_var_whitespace
+  # nah
+  #  - let_var_whitespace
 
   # Lines should not span too many characters.
   # Cannot configure this to a suitable extent.
