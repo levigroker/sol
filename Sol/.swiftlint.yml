@@ -1,17 +1,5 @@
-# This is the configuration file for SwiftLint
-#
-# Get a list of all rules via `$ swiftlint rules`
-#
-# We have manually evaluated all the rules so have opted to use the whitelist feature instead of specific disabled and enabled rule list.
-# The first line of each rule comes from the SwiftLint docs. Any second line was added to explain our decision for the rule.
-#
-# This list was populated from `SwiftLint Rules.md`, and a regex extraction:
-# Search:
-# `(\w+)` \| (En|Dis)abled.+$\s+^(.+)$
-# Replace:
-# # \3
-# - \1
-# 
+indentation: tabs
+
 whitelist_rules:
   # Prefer using `AnyObject` over `class` for class-only protocols.
   - anyobject_protocol
@@ -72,7 +60,6 @@ whitelist_rules:
   - custom_rules
 
   # Complexity of function bodies should be limited.
-  # TODO: Somewhat subjective. Lets see if its annoying.
   - cyclomatic_complexity
 
   # Availability checks or attributes shouldn't be using older versions that are satisfied by the deployment target.
@@ -473,10 +460,6 @@ whitelist_rules:
 
   # Shorthand syntactic sugar should be used, i.e. [Int] instead of Array<Int>.
   - syntactic_sugar
-
-  # TODOs and FIXMEs should be resolved.
-  # Someday.
-  # - todo
 
   # Prefer `someBool.toggle()` over `someBool = !someBool`.
   - toggle_bool

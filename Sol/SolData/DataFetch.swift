@@ -8,8 +8,8 @@
 import Foundation
 
 /**
- Fetches data from an HTTP URL
- */
+Fetches data from an HTTP URL
+*/
 struct DataFetch {
 
 	enum DataFetchError: Error {

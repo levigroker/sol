@@ -50,28 +50,28 @@ public actor SDODataManager {
 
 		public func name() -> String {
 			switch self {
-				case .i0094: return "AIA 94 Å"
-				case .i0131: return "AIA 131 Å"
-				case .i0171: return "AIA 171 Å"
-				case .i0193: return "AIA 193 Å"
-				case .i0211: return "AIA 221 Å"
-				case .i0304: return "AIA 304 Å"
-				case .i0335: return "AIA 335 Å"
-				case .i1600: return "AIA 1600 Å"
-				case .i1700: return "AIA 1700 Å"
-				case .i4500: return "AIA 4500 Å"
-				case .iHMI171: return "AIA 171 Å & HMIB"
-				case .iHMIB: return "HMI Magnetogram"
-				case .iHMII: return "HMI Intensitygram"
-				case .iHMID: return "HMI Dopplergram"
-				case .iHMIBC: return "HMI Colorized Magnetogram"
-				case .iHMIIF: return "HMI Intensitygram - Flattened"
-				case .iHMIIC: return "HMI Intensitygram - Colored"
-				case .i094335193: return "AIA 94 Å, 335 Å, 193 Å"
-				case .i304211171: return "AIA 304 Å, 211 Å, 171 Å"
-				case .i211193171: return "AIA 211 Å, 193 Å, 171 Å"
-				case .i211193171n: return "AIA 211 Å, 193 Å, 171 Å n"
-				case .i211193171rg: return "AIA 211 Å, 193 Å, 171 Å rg"
+			case .i0094: return "AIA 94 Å"
+			case .i0131: return "AIA 131 Å"
+			case .i0171: return "AIA 171 Å"
+			case .i0193: return "AIA 193 Å"
+			case .i0211: return "AIA 221 Å"
+			case .i0304: return "AIA 304 Å"
+			case .i0335: return "AIA 335 Å"
+			case .i1600: return "AIA 1600 Å"
+			case .i1700: return "AIA 1700 Å"
+			case .i4500: return "AIA 4500 Å"
+			case .iHMI171: return "AIA 171 Å & HMIB"
+			case .iHMIB: return "HMI Magnetogram"
+			case .iHMII: return "HMI Intensitygram"
+			case .iHMID: return "HMI Dopplergram"
+			case .iHMIBC: return "HMI Colorized Magnetogram"
+			case .iHMIIF: return "HMI Intensitygram - Flattened"
+			case .iHMIIC: return "HMI Intensitygram - Colored"
+			case .i094335193: return "AIA 94 Å, 335 Å, 193 Å"
+			case .i304211171: return "AIA 304 Å, 211 Å, 171 Å"
+			case .i211193171: return "AIA 211 Å, 193 Å, 171 Å"
+			case .i211193171n: return "AIA 211 Å, 193 Å, 171 Å n"
+			case .i211193171rg: return "AIA 211 Å, 193 Å, 171 Å rg"
 			}
 		}
 	}
@@ -230,8 +230,8 @@ public actor SDODataManager {
 	}
 
 	/**
-	 Gets a dictionary mapping filenames to remote URLs for images in the given day
-	 */
+	Gets a dictionary mapping filenames to remote URLs for images in the given day
+	*/
 	func remoteImagesFor(date: Date) async throws -> [String: URL] {
 		let key = Self.fullDateFormatter.string(from: date)
 		let today = Self.fullDateFormatter.string(from: Date())

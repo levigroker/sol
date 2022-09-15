@@ -1,3 +1,5 @@
+indentation: tabs
+
 whitelist_rules:
   - closing_brace
   - closure_end_indentation

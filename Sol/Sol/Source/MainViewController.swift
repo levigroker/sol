@@ -61,7 +61,7 @@ extension MainViewController {
 Settings changed:
    settingImageSet '\(self.settingImageSet.rawValue)'
  settingResolution '\(self.settingResolution.rawValue)'
-       settingPFSS '\(self.settingPFSS)'
+	   settingPFSS '\(self.settingPFSS)'
 """)
 	}
 }
@@ -72,35 +72,35 @@ extension MainViewController: UIScrollViewDelegate {
 	}
 
 	func scrollViewDidZoom(_ scrollView: UIScrollView) {
-	  updateConstraintsForSize(view.bounds.size)
+		updateConstraintsForSize(view.bounds.size)
 	}
 
 	func updateConstraintsForSize(_ size: CGSize) {
-	  let yOffset = max(0, (size.height - imageView.frame.height) / 2)
-	  imageViewTopConstraint.constant = yOffset
-	  imageViewBottomConstraint.constant = yOffset
+		let yOffset = max(0, (size.height - imageView.frame.height) / 2)
+		imageViewTopConstraint.constant = yOffset
+		imageViewBottomConstraint.constant = yOffset
 
-	  let xOffset = max(0, (size.width - imageView.frame.width) / 2)
-	  imageViewLeadingConstraint.constant = xOffset
-	  imageViewTrailingConstraint.constant = xOffset
+		let xOffset = max(0, (size.width - imageView.frame.width) / 2)
+		imageViewLeadingConstraint.constant = xOffset
+		imageViewTrailingConstraint.constant = xOffset
 
-	  view.layoutIfNeeded()
+		view.layoutIfNeeded()
 	}
 }
 
 // Zooming
 extension MainViewController {
 	func updateMinZoomScaleForSize(_ size: CGSize) {
-	  let widthScale = size.width / imageView.bounds.width
-	  let heightScale = size.height / imageView.bounds.height
-	  let minScale = min(widthScale, heightScale)
+		let widthScale = size.width / imageView.bounds.width
+		let heightScale = size.height / imageView.bounds.height
+		let minScale = min(widthScale, heightScale)
 
-	  scrollView.minimumZoomScale = minScale
-	  scrollView.zoomScale = minScale
+		scrollView.minimumZoomScale = minScale
+		scrollView.zoomScale = minScale
 	}
 
 	override func viewWillLayoutSubviews() {
-	  super.viewWillLayoutSubviews()
-	  updateMinZoomScaleForSize(view.bounds.size)
+		super.viewWillLayoutSubviews()
+		updateMinZoomScaleForSize(view.bounds.size)
 	}
 }

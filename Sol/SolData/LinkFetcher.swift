@@ -14,8 +14,8 @@ struct LinkFetcher {
 	}
 
 	/**
-	 Parse links from the given "directory" URL and return them in an array, relative to the given URL.
-	 */
+	Parse links from the given "directory" URL and return them in an array, relative to the given URL.
+	*/
 	static func parseLinks(dir: URL) async throws -> Array<URL> {
 		// Perform asynchronously
 		let task = Task {
