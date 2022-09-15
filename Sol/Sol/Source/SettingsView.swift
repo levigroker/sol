@@ -86,7 +86,6 @@ struct SettingsView: View {
 							Text(imageSet.name)
 							Spacer()
 							Image(systemName: settingImageSet == imageSet.id ? "checkmark.circle" : "circle").font(.title)
-
 						}
 						.onTapGesture {
 							settingImageSet = imageSet.id

@@ -268,7 +268,7 @@ public actor SDODataManager {
 	}
 
 	static var baseSDOImageURL: URL? {
-		guard let url:URL = URL(string: "https://sdo.gsfc.nasa.gov/assets/img/browse") else {
+		guard let url: URL = URL(string: "https://sdo.gsfc.nasa.gov/assets/img/browse") else {
 			Logger().error("Unable to create baseSDOImageURL")
 			return nil
 		}
@@ -286,9 +286,9 @@ public actor SDODataManager {
 		let year = Self.yearDateFormatter.string(from: date)
 		let month = Self.monthDateFormatter.string(from: date)
 		let day = Self.dayDateFormatter.string(from: date)
-		var url = baseSDOImageURL.appending(path: year, directoryHint:.isDirectory).appending(path: month, directoryHint:.isDirectory).appending(path: day, directoryHint:.isDirectory)
+		var url = baseSDOImageURL.appending(path: year, directoryHint: .isDirectory).appending(path: month, directoryHint: .isDirectory).appending(path: day, directoryHint: .isDirectory)
 		if let filename = filename {
-			url.append(path: filename, directoryHint:.notDirectory)
+			url.append(path: filename, directoryHint: .notDirectory)
 		}
 
 		return url
@@ -300,7 +300,7 @@ public actor SDODataManager {
 		if let existingDataStore = existingDataStore {
 			return existingDataStore
 		}
-		let rootDir = Self.dataStoreRootDir.appending(path: key, directoryHint:.isDirectory)
+		let rootDir = Self.dataStoreRootDir.appending(path: key, directoryHint: .isDirectory)
 		let dataStore = FileSystemDataStore(rootDir: rootDir)
 		dataStores[key] = dataStore
 		return dataStore
@@ -352,7 +352,7 @@ public actor SDODataManager {
 	}
 
 	/// The root directory to store SDO data
-	static private var dataStoreRootDir: URL {
+	private static var dataStoreRootDir: URL {
 		var baseURL: URL
 		do {
 			baseURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -365,10 +365,10 @@ public actor SDODataManager {
 		return baseURL
 	}
 	/// Mapping of date string (yyyyMMdd) to DataStore instance
-	private var dataStores:[String: DataStore] = [:]
+	private var dataStores: [String: DataStore] = [:]
 
 	/// Mapping of date string (yyyyMMdd) to local file URL containing the remote image listing for the given day
-	private var remoteListings:[String: URL] = [:]
+	private var remoteListings: [String: URL] = [:]
 
 	/// The file suffix for remote listing files
 	private static let remoteListingFileSuffix = "_listing.json"
@@ -426,11 +426,10 @@ public actor SDODataManager {
 			let data = try JSONEncoder().encode(listing)
 			let key = fullDateFormatter.string(from: date)
 			let filename = "\(key)\(Self.remoteListingFileSuffix)"
-			let file = dir.appending(path: filename, directoryHint:.notDirectory)
+			let file = dir.appending(path: filename, directoryHint: .notDirectory)
 			try data.write(to: file, options: .atomic)
 			return file
 		}
 		return try await task.value
 	}
 }
-

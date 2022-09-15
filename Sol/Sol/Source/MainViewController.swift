@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
 	@IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
 
 	deinit {
-		NotificationCenter.default.removeObserver(self, name:  NSNotification.Name("com.user.login.success"), object: nil)
+		NotificationCenter.default.removeObserver(self, name: NSNotification.Name("com.user.login.success"), object: nil)
 	}
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -103,5 +103,4 @@ extension MainViewController {
 	  super.viewWillLayoutSubviews()
 	  updateMinZoomScaleForSize(view.bounds.size)
 	}
-
 }

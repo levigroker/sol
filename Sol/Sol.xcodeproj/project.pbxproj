@@ -466,7 +466,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ \"${ENABLE_PREVIEWS}\" = \"YES\" ] && exit 0\nPODS_ROOT=\"./Pods\"\nSL_X=\"${PODS_ROOT}/SwiftLint/swiftlint\"\nif [ -x ${SL_X} ]; then\n  ${SL_X} --config .swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed; please run 'pod install' See https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "[ \"${ENABLE_PREVIEWS}\" = \"YES\" ] && exit 0\nPODS_ROOT=\"./Pods\"\nSL_X=\"${PODS_ROOT}/SwiftLint/swiftlint\"\nif [ -x ${SL_X} ]; then\n  ${SL_X} --fix --config .swiftlint_fix.yml\nelse\n  echo \"warning: SwiftLint not installed; please run 'pod install' See https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

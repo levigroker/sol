@@ -39,4 +39,3 @@ struct LinkFetcher {
 		return try await task.value
 	}
 }
-

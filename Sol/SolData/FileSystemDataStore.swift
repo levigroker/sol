@@ -60,7 +60,7 @@ extension FileSystemDataStore: DataStore {
 	func read(key: String) async throws -> Data {
 		let task = Task { () -> Data in
 			let url = try urlFor(key: key)
-			let data = try Data(contentsOf:url)
+			let data = try Data(contentsOf: url)
 			guard data.count > 0 else {
 				throw FileSystemDataStoreError.noData
 			}
@@ -82,7 +82,7 @@ extension FileSystemDataStore: DataStore {
 	func delete(key: String) async throws {
 		let task = Task {
 			let url = try urlFor(key: key)
-			try manager.removeItem(at:url)
+			try manager.removeItem(at: url)
 		}
 		return try await task.value
 	}

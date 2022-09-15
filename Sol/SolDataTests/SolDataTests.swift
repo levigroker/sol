@@ -44,7 +44,7 @@ final class SolDataTests: XCTestCase {
 		}
 		let links = try await LinkFetcher.parseLinks(dir: url)
 		XCTAssertGreaterThan(links.count, 0, "Expected at least one link.")
-		XCTAssertEqual(links.count, 13409)
+		XCTAssertEqual(links.count, 13_409)
 	}
 
 	// FileSystemDataStore
@@ -111,10 +111,10 @@ final class SolDataTests: XCTestCase {
 		let manager = SDODataManager()
 		try await manager.prefetchImages(date: date, imageSet: .i0094, resolution: .x512)
 		let dataStore = await manager.dataStoreFor(date: date)
-		var keys:[String] = try await dataStore.keys()
+		var keys: [String] = try await dataStore.keys()
 		keys.sort()
 		let sdoImages = try await manager.sdoImages(date: date, imageSet: .i0094, resolution: .x512)
-		var sdoKeys:[String] = sdoImages.map { $0.key }
+		var sdoKeys: [String] = sdoImages.map { $0.key }
 		sdoKeys.sort()
 
 		XCTAssertEqual(keys, sdoKeys)
