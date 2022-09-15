@@ -44,7 +44,7 @@ final class SolDataTests: XCTestCase {
 		}
 		let links = try await LinkFetcher.parseLinks(dir: url)
 		XCTAssertGreaterThan(links.count, 0, "Expected at least one link.")
-		XCTAssertEqual(links.count, 11701)
+		XCTAssertEqual(links.count, 13409)
 	}
 
 	// FileSystemDataStore
@@ -93,13 +93,30 @@ final class SolDataTests: XCTestCase {
 		}
 	}
 
-	func testSDODataManagerImages100() async throws {
+	func testSDODataManagerSDOImages100() async throws {
 		guard let date = SDODataManager.fullDateFormatter.date(from: "20220909") else {
 			XCTFail("Unexpectedly unable to create test date.")
 			return
 		}
 		let manager = SDODataManager()
-		let (imageFiles, _) = try await manager.images(date: date, imageSet: .i0094, resolution: .x512)
-		XCTAssertTrue(imageFiles.count > 0)
+		let sdoImages = try await manager.sdoImages(date: date, imageSet: .i0094, resolution: .x512)
+		XCTAssertEqual(sdoImages.count, 193)
+	}
+
+	func testSDODataManagerPrefetchImages100() async throws {
+		guard let date = SDODataManager.fullDateFormatter.date(from: "20220909") else {
+			XCTFail("Unexpectedly unable to create test date.")
+			return
+		}
+		let manager = SDODataManager()
+		try await manager.prefetchImages(date: date, imageSet: .i0094, resolution: .x512)
+		let dataStore = await manager.dataStoreFor(date: date)
+		var keys:[String] = try await dataStore.keys()
+		keys.sort()
+		let sdoImages = try await manager.sdoImages(date: date, imageSet: .i0094, resolution: .x512)
+		var sdoKeys:[String] = sdoImages.map { $0.key }
+		sdoKeys.sort()
+
+		XCTAssertEqual(keys, sdoKeys)
 	}
 }

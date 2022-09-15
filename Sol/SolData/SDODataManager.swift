@@ -5,14 +5,15 @@
 //  Created by Levi Brown on 2022-09-10.
 //
 
-import Foundation
+import UIKit
 import RegexBuilder
 import os
 
-public class SDODataManager {
+public actor SDODataManager {
 
-	enum SDODataManagerError: Error {
+	public enum SDODataManagerError: Error {
 		case badURL
+		case invalidImageData(key: String)
 	}
 
 	// Unless otherwise stated, ImageSets:
@@ -85,16 +86,40 @@ public class SDODataManager {
 	}
 
 	init() {
-		remoteListings = loadRemoteListings(dir: dataStoreRootDir)
+		remoteListings = Self.loadRemoteListings(dir: Self.dataStoreRootDir)
 	}
 
-	/// Gathers images with the given criteria. This will attempt to load from local caches but may fetch images from the remote system.
+	/// Populates local cache with images with the given criteria
 	/// - parameter date: The day of the desired images
 	/// - parameter imageSet: The ImageSet which the images belong to
 	/// - parameter resolution: The desired Resolution of the images
 	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
 	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
-	func images(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws -> (Array<String>, DataStore) {
+	func prefetchImages(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws {
+		let sdoImages = try await sdoImages(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
+		let sdoImagesByKey = sdoImages.reduce(into: [:]) { partialResult, sdoImage in
+			partialResult[sdoImage.key] = sdoImage
+		}
+
+		// Get all the locally cached image names
+		let dataStore = dataStoreFor(date: date)
+		let allLocalFilenames = try await dataStore.keys()
+
+		// Determine which files we still need to fetch from the remote system
+		let neededFilenames = Set(sdoImagesByKey.keys).subtracting(Set(allLocalFilenames))
+		let neededSDOImages = neededFilenames.compactMap { sdoImagesByKey[$0] }
+
+		// Fetch all needed images from the remote system and cache them in the DataStore
+		try await Self.fetchRemote(sdoImages: neededSDOImages, to: dataStore)
+	}
+
+	/// Gathers metadata for images with the given criteria.
+	/// - parameter date: The day of the desired images
+	/// - parameter imageSet: The ImageSet which the images belong to
+	/// - parameter resolution: The desired Resolution of the images
+	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
+	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
+	func sdoImages(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws -> Array<SDOImage> {
 		// Create the regular expression to match our desired image names
 		let regex = Self.imageNameRegex(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
 		Logger().info("Looking for images with date '\(Self.fullDateFormatter.string(from: date))' imageSet: '\(imageSet.rawValue)' resolution: '\(resolution.rawValue)' pfss: '\(pfss ? "true" : "false")'")
@@ -107,48 +132,101 @@ public class SDODataManager {
 			key.wholeMatch(of: regex) != nil
 		}
 
-		// Get all the locally cached image names
-		let dataStore = dataStoreFor(date: date)
-		let allLocalFilenames = try await dataStore.keys()
+		let sdoImages = matchingFilenames.compactMap({ filename in
+			if let remoteURL = remoteImages[filename] {
+				return SDOImage(key: filename, day: date, remoteURL: remoteURL)
+			}
+			return nil
+		}).sorted()
 
-		// Determine which files we still need to fetch from the remote system
-		let neededFilenames = Set(matchingFilenames).subtracting(Set(allLocalFilenames))
-		let neededFileMap = neededFilenames.reduce(into: [:]) { partialResult, filename in
-			partialResult[filename] = remoteImages[filename]
-		}
-
-		// Fetch all needed images from the remote system and cache them in the DataStore
-		try await fetchRemoteDatas(neededFileMap, to: dataStore)
-
-		return (matchingFilenames, dataStore)
+		return sdoImages
 	}
 
-	func fetchRemoteDatas(_ dataMap: [String: URL], to dataStore: DataStore) async throws {
-		var retries:[String: URL] = [:]
-		for (key, url) in dataMap {
-			do {
-				try await fetchRemoteData(key: key, url: url, to: dataStore)
-			}
-			catch {
-				Logger().error("Failed to download '\(url)'. Will retry. Error: \(error)")
-				retries[key] = url
+	/// Get the UImage associated with the given SDOImage
+	/// This will attempt to load from local caches but may fetch images from the remote system.
+	/// - parameter The SDOImage whose UIImage to retreive
+	public func image(_ sdoImage: SDOImage) async throws -> UIImage {
+		// Check for the image (or an active task) in our cache and return the image
+		if let item = sdoImageCache[sdoImage.key] {
+			switch item.state {
+			case .awaiting(let task):
+				return try await task.value
+			case .cached(let image):
+				return image
+			case .uninitiated:
+				break // Continue below to initiate image retrieval
 			}
 		}
-		for (key, url) in retries {
+
+		// We don't have the image in our cache
+		// Create a Task to retreive it as needed
+		let task: Task<UIImage, Error> = Task {
+			// First let's try to get it from the data store
+			let dataStore = dataStoreFor(date: sdoImage.day)
+			var data = try? await dataStore.read(key: sdoImage.key)
+
+			// If we don't get the image data from the data store, fetch it from the remote
+			if data == nil {
+				data = try await Self.fetchRemoteData(sdoImage: sdoImage, to: dataStore)
+			}
+
+			// Create the UIImage from the data, if we have it
+			guard let data = data, let image = UIImage(data: data) else {
+				throw SDODataManagerError.invalidImageData(key: sdoImage.key)
+			}
+			return image
+		}
+
+		// We create new metadata state containing the task, and store it in the cache to provide re-entrant protection while the task is being awaited
+		var updatedSDOImage = sdoImage
+		updatedSDOImage.state = SDOImage.State.awaiting(task)
+		sdoImageCache[updatedSDOImage.key] = updatedSDOImage
+		// await the task
+		let image = try await task.value
+		// Update our cache with the actual image
+		updatedSDOImage.state = SDOImage.State.cached(image)
+		sdoImageCache[updatedSDOImage.key] = updatedSDOImage
+
+		return image
+	}
+
+	// In-memory cache of SDOImages by 'key'
+	// NOTE: We will need to consider cache size and item management (remove item, flush all) so we can control memory use by the cache, but presently we are caching everything in memory
+	private var sdoImageCache: [SDOImageKey: SDOImage] = [:]
+
+	static func fetchRemote(sdoImages: Array<SDOImage>, to dataStore: DataStore) async throws {
+		var retries = [SDOImage]()
+		for sdoImage in sdoImages {
 			do {
-				try await fetchRemoteData(key: key, url: url, to: dataStore)
+				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore)
 			}
 			catch {
-				Logger().error("Again failed to download '\(url)'. Will NOT retry. Error: \(error)")
+				Logger().error("Failed to download '\(sdoImage.remoteURL)'. Will retry. Error: \(error)")
+				retries.append(sdoImage)
+			}
+		}
+		for sdoImage in retries {
+			do {
+				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore)
+			}
+			catch {
+				Logger().error("Again failed to download '\(sdoImage.remoteURL)'. Will NOT retry. Error: \(error)")
 			}
 		}
 	}
 
-	func fetchRemoteData(key: String, url: URL, to dataStore: DataStore) async throws {
-		let dataFetch = DataFetch(url: url)
+	static func fetchRemoteData(sdoImage: SDOImage, to dataStore: DataStore) async throws -> Data {
+		let dataFetch = DataFetch(url: sdoImage.remoteURL)
 		let data = try await dataFetch.fetch()
-		try await dataStore.write(key: key, item: data)
-		Logger().info("Downloaded '\(key)'")
+		Logger().info("Downloaded '\(sdoImage.key)'")
+		do {
+			try await dataStore.write(key: sdoImage.key, item: data)
+		}
+		catch {
+			// Catch the error and just log it, since we have the data
+			Logger().error("Unable to persist '\(sdoImage.key)' to data store. Error: \(error)")
+		}
+		return data
 	}
 
 	/**
@@ -160,18 +238,18 @@ public class SDODataManager {
 
 		// If the desired listing is for the current day, we need to refetch it, as the listing is updated throughout the day.
 		if key == today {
-			return try await remoteListingFor(date: date)
+			return try await Self.remoteListingFor(date: date)
 		}
 
 		// Use a cached listing file, if we have one.
 		if let existingListingFile = remoteListings[key] {
-			return try await readListingsFile(existingListingFile)
+			return try await Self.readListingsFile(existingListingFile)
 		}
 
 		// The desired listing is not for today and not already cached, so
 		// fetch and cache the listing
-		let listing = try await remoteListingFor(date: date)
-		let listingFile = try await cacheRemote(listing: listing, to: dataStoreRootDir, for: date)
+		let listing = try await Self.remoteListingFor(date: date)
+		let listingFile = try await Self.cacheRemote(listing: listing, to: Self.dataStoreRootDir, for: date)
 		remoteListings[key] = listingFile
 
 		return listing
@@ -179,7 +257,7 @@ public class SDODataManager {
 
 	/// Reads the listing file from the given URL
 	/// - returns: A Dictionary keyed with the filenames and whose values are the remote URLs for the images
-	func readListingsFile(_ file: URL) async throws -> [String: URL] {
+	static func readListingsFile(_ file: URL) async throws -> [String: URL] {
 		let task = Task {
 			// Load up the listing file into a dictionary
 			let data = try Data(contentsOf: file, options: .mappedIfSafe)
@@ -189,7 +267,7 @@ public class SDODataManager {
 		return try await task.value
 	}
 
-	class var baseSDOImageURL: URL? {
+	static var baseSDOImageURL: URL? {
 		guard let url:URL = URL(string: "https://sdo.gsfc.nasa.gov/assets/img/browse") else {
 			Logger().error("Unable to create baseSDOImageURL")
 			return nil
@@ -201,7 +279,7 @@ public class SDODataManager {
 	/// - parameter date: The desired day
 	/// - parameter filename: The specific filename of the file to retrieve (optional).
 	/// - returns: If `filename` is supplied, the URL returned will represent the remote file. If `filename` is nil, the URL returned will represent the directory containing images for the given day
-	func remoteImageURLFor(date: Date, filename: String? = nil) throws -> URL {
+	static func remoteImageURLFor(date: Date, filename: String? = nil) throws -> URL {
 		guard let baseSDOImageURL = Self.baseSDOImageURL else {
 			throw SDODataManagerError.badURL
 		}
@@ -222,28 +300,28 @@ public class SDODataManager {
 		if let existingDataStore = existingDataStore {
 			return existingDataStore
 		}
-		let rootDir = dataStoreRootDir.appending(path: key, directoryHint:.isDirectory)
+		let rootDir = Self.dataStoreRootDir.appending(path: key, directoryHint:.isDirectory)
 		let dataStore = FileSystemDataStore(rootDir: rootDir)
 		dataStores[key] = dataStore
 		return dataStore
 	}
 
-	class var yearDateFormatter: DateFormatter {
+	static var yearDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy" // Like "2022"
 		return formatter
 	}
-	class var monthDateFormatter: DateFormatter {
+	static var monthDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "MM" // Like "10"
 		return formatter
 	}
-	class var dayDateFormatter: DateFormatter {
+	static var dayDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "dd" // Like "05"
 		return formatter
 	}
-	class var fullDateFormatter: DateFormatter {
+	static var fullDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyyMMdd" // Like "20221005"
 		return formatter
@@ -255,7 +333,7 @@ public class SDODataManager {
 	/// - parameter resolution: The desired Resolution of the image
 	/// - parameter pfss: Should the image belong to the `pfss` subset?
 	/// - returns: A regular expression which will match the image name for the given parameters, ignoring the time component of the name (matches all images for a given day, with the appropriate ImageSet, Resolution and pfss status)
-	class func imageNameRegex(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool) -> Regex<Substring> {
+	static func imageNameRegex(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool) -> Regex<Substring> {
 		let formattedDate = fullDateFormatter.string(from: date)
 		// "<date>_<time>_<resolution>_<image_set><pfss>.jpg"
 		// "\(formattedDate)_\\d+_\(resolution.rawValue)_\(imageSet.rawValue)\(pfss ? "pfss" : "")\\.jpg"
@@ -274,7 +352,7 @@ public class SDODataManager {
 	}
 
 	/// The root directory to store SDO data
-	private var dataStoreRootDir: URL {
+	static private var dataStoreRootDir: URL {
 		var baseURL: URL
 		do {
 			baseURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
@@ -298,7 +376,7 @@ public class SDODataManager {
 	/// Inspects the filesystem for remote listing files in the given directory
 	///	- parameter dir: A URL representing the directory to inspect for cached listing files
 	/// - returns: A dictionary with keys representing the imageDateFormat and values of URLs to the local remote listing files
-	func loadRemoteListings(dir: URL) -> [String: URL] {
+	static func loadRemoteListings(dir: URL) -> [String: URL] {
 		do {
 			// Make sure we have a directory to inspect
 			try FileManager.default.createDirectory(at: dataStoreRootDir, withIntermediateDirectories: true)
@@ -326,7 +404,7 @@ public class SDODataManager {
 	/// Fetches the remote listing for the given date
 	///	- parameter date: The Date to get the listing of
 	/// - returns: A dictionary of links mapped by filename
-	func remoteListingFor(date: Date) async throws -> [String: URL] {
+	static func remoteListingFor(date: Date) async throws -> [String: URL] {
 		let remoteDir = try remoteImageURLFor(date: date)
 		// Fetch the links from the remote directory, and map them by filename
 		let links = try await LinkFetcher.parseLinks(dir: remoteDir).reduce(into: [String: URL]()) { partialResult, url in
@@ -341,12 +419,12 @@ public class SDODataManager {
 	///	- parameter to: A URL representing the directory to save the cached listing file
 	///	- parameter date: A Date representing the day of the listing
 	/// - returns: A URL of the resulting cache file
-	func cacheRemote(listing: [String: URL], to dir: URL, for date: Date) async throws -> URL {
+	static func cacheRemote(listing: [String: URL], to dir: URL, for date: Date) async throws -> URL {
 		// Cache the listing into a local file
 		let task = Task {
 			// Write out the dictionary listing to file
 			let data = try JSONEncoder().encode(listing)
-			let key = Self.fullDateFormatter.string(from: date)
+			let key = fullDateFormatter.string(from: date)
 			let filename = "\(key)\(Self.remoteListingFileSuffix)"
 			let file = dir.appending(path: filename, directoryHint:.notDirectory)
 			try data.write(to: file, options: .atomic)
