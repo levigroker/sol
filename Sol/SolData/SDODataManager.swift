@@ -195,28 +195,37 @@ public actor SDODataManager {
 	// NOTE: We will need to consider cache size and item management (remove item, flush all) so we can control memory use by the cache, but presently we are caching everything in memory
 	private var sdoImageCache: [SDOImageKey: SDOImage] = [:]
 
+	/// Fetches the Data of the given images and attempts to write it to the given data store
+	/// - parameter sdoImage: The image metadata of the desired image
+	/// - parameter dataStore: The DataStore instance to write the image data to
+	/// - returns: The image data for the desired image
 	static func fetchRemote(sdoImages: [SDOImage], to dataStore: DataStore) async throws {
 		var retries = [SDOImage]()
 		for sdoImage in sdoImages {
 			do {
-				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore)
+				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore, storeFailureThrows: true)
 			}
 			catch {
-				Logger().error("Failed to download '\(sdoImage.remoteURL)'. Will retry. Error: \(error)")
+				Logger().error("Failed to cache image '\(sdoImage.remoteURL)'. Will retry. Error: \(error)")
 				retries.append(sdoImage)
 			}
 		}
 		for sdoImage in retries {
 			do {
-				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore)
+				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore, storeFailureThrows: true)
 			}
 			catch {
-				Logger().error("Again failed to download '\(sdoImage.remoteURL)'. Will NOT retry. Error: \(error)")
+				Logger().error("Again failed to cache image '\(sdoImage.remoteURL)'. Will NOT retry. Error: \(error)")
 			}
 		}
 	}
 
-	static func fetchRemoteData(sdoImage: SDOImage, to dataStore: DataStore) async throws -> Data {
+	/// Fetches the Data of the given image and attempts to write it to the given data store
+	/// - parameter sdoImage: The image metadata of the desired image
+	/// - parameter dataStore: The DataStore instance to write the image data to
+	/// - parameter storeFailureThrows: If `true` a failure to write to the data store is considered fatal and the error is thrown. If `false` the priority is to return the Data even if it can not be written to the DataStore
+	/// - returns: The image data for the desired image
+	static func fetchRemoteData(sdoImage: SDOImage, to dataStore: DataStore, storeFailureThrows: Bool = false) async throws -> Data {
 		let dataFetch = DataFetch(url: sdoImage.remoteURL)
 		let data = try await dataFetch.fetch()
 		Logger().info("Downloaded '\(sdoImage.key)'")
@@ -224,15 +233,18 @@ public actor SDODataManager {
 			try await dataStore.write(key: sdoImage.key, item: data)
 		}
 		catch {
+			if storeFailureThrows {
+				throw error
+			}
 			// Catch the error and just log it, since we have the data
 			Logger().error("Unable to persist '\(sdoImage.key)' to data store. Error: \(error)")
 		}
 		return data
 	}
 
-	/**
-	Gets a dictionary mapping filenames to remote URLs for images in the given day
-	*/
+	/// Gets a dictionary mapping filenames to remote URLs for images in the given day
+	/// - parameter date: A Date representing the day whose associated images to return
+	/// - returns: A Dictionary of remote URLs keyed by image filenames
 	func remoteImagesFor(date: Date) async throws -> [String: URL] {
 		let key = Self.fullDateFormatter.string(from: date)
 		let today = Self.fullDateFormatter.string(from: Date())
@@ -295,6 +307,9 @@ public actor SDODataManager {
 		return url
 	}
 
+	/// Gets the appropriate DataStor for the given day, creating if needed
+	/// - parameter date: A Date representing the day associated with the desired DataStore
+	/// - returns A DataStore instance associated with the given day
 	func dataStoreFor(date: Date) -> DataStore {
 		let key = Self.fullDateFormatter.string(from: date)
 		let existingDataStore = dataStores[key]
