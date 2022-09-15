@@ -119,7 +119,7 @@ public actor SDODataManager {
 	/// - parameter resolution: The desired Resolution of the images
 	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
 	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
-	func sdoImages(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws -> Array<SDOImage> {
+	func sdoImages(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws -> [SDOImage] {
 		// Create the regular expression to match our desired image names
 		let regex = Self.imageNameRegex(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
 		Logger().info("Looking for images with date '\(Self.fullDateFormatter.string(from: date))' imageSet: '\(imageSet.rawValue)' resolution: '\(resolution.rawValue)' pfss: '\(pfss ? "true" : "false")'")
@@ -137,7 +137,8 @@ public actor SDODataManager {
 				return SDOImage(key: filename, day: date, remoteURL: remoteURL)
 			}
 			return nil
-		}).sorted()
+		})
+		.sorted()
 
 		return sdoImages
 	}
@@ -194,7 +195,7 @@ public actor SDODataManager {
 	// NOTE: We will need to consider cache size and item management (remove item, flush all) so we can control memory use by the cache, but presently we are caching everything in memory
 	private var sdoImageCache: [SDOImageKey: SDOImage] = [:]
 
-	static func fetchRemote(sdoImages: Array<SDOImage>, to dataStore: DataStore) async throws {
+	static func fetchRemote(sdoImages: [SDOImage], to dataStore: DataStore) async throws {
 		var retries = [SDOImage]()
 		for sdoImage in sdoImages {
 			do {
@@ -268,7 +269,7 @@ public actor SDODataManager {
 	}
 
 	static var baseSDOImageURL: URL? {
-		guard let url: URL = URL(string: "https://sdo.gsfc.nasa.gov/assets/img/browse") else {
+		guard let url = URL(string: "https://sdo.gsfc.nasa.gov/assets/img/browse") else {
 			Logger().error("Unable to create baseSDOImageURL")
 			return nil
 		}

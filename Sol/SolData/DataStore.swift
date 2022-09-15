@@ -8,7 +8,7 @@
 import Foundation
 
 protocol DataStore {
-	func keys() async throws -> Array<String>
+	func keys() async throws -> [String]
 	func exists(key: String) async throws -> Bool
 	func read(key: String) async throws -> Data
 	func write(key: String, item: Data) async throws

@@ -9,7 +9,7 @@ import UIKit
 
 class AboutViewController: UIViewController {
 
-	@IBOutlet weak var copyrightLabel: UILabel!
+	@IBOutlet private var copyrightLabel: UILabel!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

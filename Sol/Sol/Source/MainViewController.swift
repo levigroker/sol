@@ -12,12 +12,12 @@ import SolData
 
 class MainViewController: UIViewController {
 
-	@IBOutlet weak var scrollView: UIScrollView!
-	@IBOutlet weak var imageView: UIImageView!
-	@IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
-	@IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
-	@IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
-	@IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
+	@IBOutlet private var scrollView: UIScrollView!
+	@IBOutlet private var imageView: UIImageView!
+	@IBOutlet private var imageViewTopConstraint: NSLayoutConstraint!
+	@IBOutlet private var imageViewBottomConstraint: NSLayoutConstraint!
+	@IBOutlet private var imageViewLeadingConstraint: NSLayoutConstraint!
+	@IBOutlet private var imageViewTrailingConstraint: NSLayoutConstraint!
 
 	deinit {
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name("com.user.login.success"), object: nil)
@@ -41,15 +41,18 @@ class MainViewController: UIViewController {
 		super.viewWillAppear(animated)
 	}
 
-	@IBSegueAction func presentSettingsView(_ coder: NSCoder) -> UIViewController? {
+	@IBSegueAction
+	func presentSettingsView(_ coder: NSCoder) -> UIViewController? {
 		return UIHostingController(coder: coder, rootView: SettingsView())
 	}
 
 	// Settings
 	@AppStorage(Settings.sdoImageSet.rawValue)
 	private var settingImageSet: SDODataManager.ImageSet = .i0131
+
 	@AppStorage(Settings.sdoResolution.rawValue)
 	private var settingResolution = SDODataManager.Resolution.x1024
+
 	@AppStorage(Settings.sdoPFSS.rawValue)
 	private var settingPFSS = true
 }

@@ -42,8 +42,8 @@ struct FileSystemDataStore {
 
 extension FileSystemDataStore: DataStore {
 
-	func keys() async throws -> Array<String> {
-		let task = Task { () -> Array<String> in
+	func keys() async throws -> [String] {
+		let task = Task { () -> [String] in
 			let files = try manager.contentsOfDirectory(at: rootDir, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
 			let keys = files.map { $0.lastPathComponent }.sorted()
 			return keys
@@ -61,7 +61,7 @@ extension FileSystemDataStore: DataStore {
 		let task = Task { () -> Data in
 			let url = try urlFor(key: key)
 			let data = try Data(contentsOf: url)
-			guard data.count > 0 else {
+			guard data.isEmpty else {
 				throw FileSystemDataStoreError.noData
 			}
 			return data

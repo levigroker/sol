@@ -323,6 +323,7 @@
 			buildConfigurationList = DB17F70628CD21B500684220 /* Build configuration list for PBXNativeTarget "SolData" */;
 			buildPhases = (
 				DB17F6EA28CD21B400684220 /* Headers */,
+				DB64953F28D2EDF700993999 /* SwiftLint */,
 				DB17F6EB28CD21B400684220 /* Sources */,
 				DB17F6EC28CD21B400684220 /* Frameworks */,
 				DB17F6ED28CD21B400684220 /* Resources */,
@@ -466,7 +467,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ \"${ENABLE_PREVIEWS}\" = \"YES\" ] && exit 0\nPODS_ROOT=\"./Pods\"\nSL_X=\"${PODS_ROOT}/SwiftLint/swiftlint\"\nif [ -x ${SL_X} ]; then\n  ${SL_X} --fix --format --config .swiftlint_fix.yml\nelse\n  echo \"warning: SwiftLint not installed; please run 'pod install' See https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "[ \"${ENABLE_PREVIEWS}\" = \"YES\" ] && exit 0\nSL_PATHS=(\"Sol\")\nSL_X=\"./Pods/SwiftLint/swiftlint\"\nif [ -x ${SL_X} ]; then\n\t${SL_X} --fix --format --config .swiftlint_fix.yml ${SL_PATHS[@]} && \\\n\t${SL_X} --config .swiftlint.yml ${SL_PATHS[@]} || exit 1\n\techo \"SwiftLint completed\"\nelse\n\techo \"warning: SwiftLint not installed; please run 'pod install' See https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		DB64953F28D2EDF700993999 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ \"${ENABLE_PREVIEWS}\" = \"YES\" ] && exit 0\nSL_PATHS=(\"SolData\")\nSL_X=\"./Pods/SwiftLint/swiftlint\"\nif [ -x ${SL_X} ]; then\n\t${SL_X} --fix --format --config .swiftlint_fix.yml ${SL_PATHS[@]} && \\\n\t${SL_X} --config .swiftlint.yml ${SL_PATHS[@]} || exit 1\n\techo \"SwiftLint completed\"\nelse\n\techo \"warning: SwiftLint not installed; please run 'pod install' See https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
