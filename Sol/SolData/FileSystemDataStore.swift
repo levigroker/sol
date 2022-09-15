@@ -61,7 +61,7 @@ extension FileSystemDataStore: DataStore {
 		let task = Task { () -> Data in
 			let url = try urlFor(key: key)
 			let data = try Data(contentsOf: url)
-			guard data.isEmpty else {
+			guard !data.isEmpty else {
 				throw FileSystemDataStoreError.noData
 			}
 			return data
