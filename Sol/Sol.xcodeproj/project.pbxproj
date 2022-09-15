@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DB06A5A928D177E100C67598 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB06A5A828D177E100C67598 /* Settings.swift */; };
+		DB06A5AE28D2C9C900C67598 /* SDOImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB06A5AD28D2C9C900C67598 /* SDOImage.swift */; };
 		DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BA28CD20CC00684220 /* AppDelegate.swift */; };
 		DB17F6BD28CD20CC00684220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */; };
 		DB17F6BF28CD20CC00684220 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F6BE28CD20CC00684220 /* MainViewController.swift */; };
@@ -87,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		DB06A5A828D177E100C67598 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		DB06A5AD28D2C9C900C67598 /* SDOImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDOImage.swift; sourceTree = "<group>"; };
 		DB17F6B728CD20CC00684220 /* Sol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB17F6BA28CD20CC00684220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -228,11 +230,12 @@
 				DB17F70D28CD22AB00684220 /* DataFetch.swift */,
 				DB17F71328CD628A00684220 /* DataStore.swift */,
 				DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */,
+				DB17F71928D0231A00684220 /* ImageCache.swift */,
 				DB17F70F28CD2B8D00684220 /* LinkFetcher.swift */,
 				DB17F71128CD61EC00684220 /* SDODataManager.swift */,
+				DB06A5AD28D2C9C900C67598 /* SDOImage.swift */,
 				DB17F6F228CD21B400684220 /* SolData.docc */,
 				DB17F6F128CD21B400684220 /* SolData.h */,
-				DB17F71928D0231A00684220 /* ImageCache.swift */,
 			);
 			path = SolData;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DB17F6E128CD20CD00684220 /* Build configuration list for PBXNativeTarget "Sol" */;
 			buildPhases = (
+				DB64953E28D2E55300993999 /* SwiftLint */,
 				DB17F6B328CD20CC00684220 /* Sources */,
 				DB17F6B428CD20CC00684220 /* Frameworks */,
 				DB17F6B528CD20CC00684220 /* Resources */,
@@ -444,6 +448,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DB64953E28D2E55300993999 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ \"${ENABLE_PREVIEWS}\" = \"YES\" ] && exit 0\nPODS_ROOT=\"./Pods\"\nSL_X=\"${PODS_ROOT}/SwiftLint/swiftlint\"\nif [ -x ${SL_X} ]; then\n  ${SL_X} --config .swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed; please run 'pod install' See https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		DB17F6B328CD20CC00684220 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -481,6 +507,7 @@
 			files = (
 				DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */,
 				DB17F70E28CD22AB00684220 /* DataFetch.swift in Sources */,
+				DB06A5AE28D2C9C900C67598 /* SDOImage.swift in Sources */,
 				DB17F6F328CD21B400684220 /* SolData.docc in Sources */,
 				DB17F71228CD61EC00684220 /* SDODataManager.swift in Sources */,
 				DB17F71A28D0231A00684220 /* ImageCache.swift in Sources */,
@@ -677,6 +704,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -708,6 +736,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
