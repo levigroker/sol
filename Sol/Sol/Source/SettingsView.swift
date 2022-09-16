@@ -15,9 +15,9 @@ struct SettingsView: View {
 	struct SDOImageSet: Identifiable, Hashable {
 		let name: String
 		let image: UIImage
-		let id: SDODataManager.ImageSet
+		let id: SDOImage.ImageSet
 
-		init(_ imageSet: SDODataManager.ImageSet) {
+		init(_ imageSet: SDOImage.ImageSet) {
 			self.name = imageSet.name()
 			if let image = UIImage(named: imageSet.rawValue) {
 				self.image = image
@@ -29,21 +29,25 @@ struct SettingsView: View {
 			id = imageSet
 		}
 	}
-	private let imageSets = SDODataManager.ImageSet.allCases.map { SDOImageSet($0) }
+
+	private let imageSets = SDOImage.ImageSet.allCases.map { SDOImageSet($0) }
+
 	@AppStorage(Settings.sdoImageSet.rawValue)
 	private var settingImageSet = SDODataManager.ImageSet.i0171
 
 	// Resolutions
 	struct SDOResolution: Identifiable, Hashable {
 		let name: String
-		let id: SDODataManager.Resolution
+		let id: SDOImage.Resolution
 
-		init(_ resolution: SDODataManager.Resolution) {
+		init(_ resolution: SDOImage.Resolution) {
 			self.name = "\(resolution.rawValue)"
 			id = resolution
 		}
 	}
-	private let resolutions = SDODataManager.Resolution.allCases.map { SDOResolution($0) }
+
+	private let resolutions = SDOImage.Resolution.allCases.map { SDOResolution($0) }
+
 	@AppStorage(Settings.sdoResolution.rawValue)
 	private var settingResolution = SDODataManager.Resolution.x1024
 	@State private var selectedResolution = SDODataManager.Resolution.x1024

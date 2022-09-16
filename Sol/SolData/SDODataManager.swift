@@ -16,74 +16,6 @@ public actor SDODataManager {
 		case invalidImageData(key: String)
 	}
 
-	// Unless otherwise stated, ImageSets:
-	//  - do not contain 3072 resolution
-	//  - do contain pfss variants
-	public enum ImageSet: String, CaseIterable {
-		case i0094 = "0094" // no 256 resolution
-		case i0131 = "0131"
-		case i0171 = "0171"
-		case i0193 = "0193"
-		case i0211 = "0211"
-		case i0304 = "0304"
-		case i0335 = "0335"
-		case i1600 = "1600"
-		case i1700 = "1700"
-		case i4500 = "4500" // no pfss variant
-		case iHMI171 = "HMI171"
-		case iHMIB = "HMIB"
-		case iHMII = "HMII" // no pfss variant
-		case iHMID = "HMID" // no pfss variant
-		case iHMIBC = "HMIBC" // no pfss variant, contains 3072 resolution
-		case iHMIIF = "HMIIF" // no pfss variant, contains 3072 resolution
-		case iHMIIC = "HMIIC" // no pfss variant, contains 3072 resolution
-		// Composite of 0094, 0335, and 0193
-		case i094335193 = "094335193"
-		// Composite of 0304, 0211, and 0171
-		case i304211171 = "304211171"
-		// Composite of 0211, 0193, and 0171
-		case i211193171 = "211193171" // contains 3072 resolution
-		// Composite of 0211, 0193, and 0171, with dimmed corona
-		case i211193171n = "211193171n" // no pfss variant, contains 3072 resolution
-		// Appears to be the same as 211193171
-		case i211193171rg = "211193171rg" // no pfss variant, contains 3072 resolution
-
-		public func name() -> String {
-			switch self {
-			case .i0094: return "AIA 94 Å"
-			case .i0131: return "AIA 131 Å"
-			case .i0171: return "AIA 171 Å"
-			case .i0193: return "AIA 193 Å"
-			case .i0211: return "AIA 221 Å"
-			case .i0304: return "AIA 304 Å"
-			case .i0335: return "AIA 335 Å"
-			case .i1600: return "AIA 1600 Å"
-			case .i1700: return "AIA 1700 Å"
-			case .i4500: return "AIA 4500 Å"
-			case .iHMI171: return "AIA 171 Å & HMIB"
-			case .iHMIB: return "HMI Magnetogram"
-			case .iHMII: return "HMI Intensitygram"
-			case .iHMID: return "HMI Dopplergram"
-			case .iHMIBC: return "HMI Colorized Magnetogram"
-			case .iHMIIF: return "HMI Intensitygram - Flattened"
-			case .iHMIIC: return "HMI Intensitygram - Colored"
-			case .i094335193: return "AIA 94 Å, 335 Å, 193 Å"
-			case .i304211171: return "AIA 304 Å, 211 Å, 171 Å"
-			case .i211193171: return "AIA 211 Å, 193 Å, 171 Å"
-			case .i211193171n: return "AIA 211 Å, 193 Å, 171 Å n"
-			case .i211193171rg: return "AIA 211 Å, 193 Å, 171 Å rg"
-			}
-		}
-	}
-
-	public enum Resolution: String, CaseIterable {
-		case x256 = "256"
-		case x512 = "512"
-		case x1024 = "1024"
-		case x2048 = "2048"
-		case x3072 = "3072"
-		case x4096 = "4096"
-	}
 	/// Singleton
 	/// We only want one data manager managing things, so only create one
 	public static let shared = SDODataManager()
@@ -98,7 +30,7 @@ public actor SDODataManager {
 	/// - parameter resolution: The desired Resolution of the images
 	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
 	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
-	func prefetchImages(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws {
+	public func prefetchImages(date: Date, imageSet: SDOImage.ImageSet, resolution: SDOImage.Resolution, pfss: Bool = false) async throws {
 		let sdoImages = try await sdoImages(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
 		let sdoImagesByKey = sdoImages.reduce(into: [:]) { partialResult, sdoImage in
 			partialResult[sdoImage.key] = sdoImage
@@ -122,7 +54,7 @@ public actor SDODataManager {
 	/// - parameter resolution: The desired Resolution of the images
 	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
 	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
-	func sdoImages(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool = false) async throws -> [SDOImage] {
+	public func sdoImages(date: Date, imageSet: SDOImage.ImageSet, resolution: SDOImage.Resolution, pfss: Bool = false) async throws -> [SDOImage] {
 		// Create the regular expression to match our desired image names
 		let regex = Self.imageNameRegex(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
 		Logger().info("Looking for images with date '\(Self.fullDateFormatter.string(from: date))' imageSet: '\(imageSet.rawValue)' resolution: '\(resolution.rawValue)' pfss: '\(pfss ? "true" : "false")'")
@@ -137,7 +69,7 @@ public actor SDODataManager {
 
 		let sdoImages = matchingFilenames.compactMap({ filename in
 			if let remoteURL = remoteImages[filename] {
-				return SDOImage(key: filename, day: date, remoteURL: remoteURL)
+				return SDOImage(key: filename, day: date, imageSet: imageSet, resolution: resolution, pfss: pfss, remoteURL: remoteURL)
 			}
 			return nil
 		})
@@ -352,7 +284,7 @@ public actor SDODataManager {
 	/// - parameter resolution: The desired Resolution of the image
 	/// - parameter pfss: Should the image belong to the `pfss` subset?
 	/// - returns: A regular expression which will match the image name for the given parameters, ignoring the time component of the name (matches all images for a given day, with the appropriate ImageSet, Resolution and pfss status)
-	static func imageNameRegex(date: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool) -> Regex<Substring> {
+	static func imageNameRegex(date: Date, imageSet: SDOImage.ImageSet, resolution: SDOImage.Resolution, pfss: Bool) -> Regex<Substring> {
 		let formattedDate = fullDateFormatter.string(from: date)
 		// "<date>_<time>_<resolution>_<image_set><pfss>.jpg"
 		// "\(formattedDate)_\\d+_\(resolution.rawValue)_\(imageSet.rawValue)\(pfss ? "pfss" : "")\\.jpg"
