@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SolData
 
 public enum Settings: String {
 	case sdoImageSet
@@ -18,5 +19,11 @@ public enum Settings: String {
 
 	static var notificationName: Notification.Name {
 		return Notification.Name("Sol_settings_changed")
+	}
+
+	enum `default` {
+		static let sdoImageSet = SDOImage.ImageSet.i0131
+		static let sdoResolution = SDOImage.Resolution.x1024
+		static let sdoPFSS = false
 	}
 }

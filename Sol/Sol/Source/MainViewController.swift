@@ -48,13 +48,13 @@ class MainViewController: UIViewController {
 
 	// Settings
 	@AppStorage(Settings.sdoImageSet.rawValue)
-	private var settingImageSet: SDODataManager.ImageSet = .i0131
+	private var settingImageSet: SDOImage.ImageSet = Settings.default.sdoImageSet // swift compiler gets confused without specifying the type here
 
 	@AppStorage(Settings.sdoResolution.rawValue)
-	private var settingResolution = SDODataManager.Resolution.x1024
+	private var settingResolution = Settings.default.sdoResolution
 
 	@AppStorage(Settings.sdoPFSS.rawValue)
-	private var settingPFSS = true
+	private var settingPFSS = Settings.default.sdoPFSS
 }
 
 @objc

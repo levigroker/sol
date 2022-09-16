@@ -33,7 +33,7 @@ struct SettingsView: View {
 	private let imageSets = SDOImage.ImageSet.allCases.map { SDOImageSet($0) }
 
 	@AppStorage(Settings.sdoImageSet.rawValue)
-	private var settingImageSet = SDODataManager.ImageSet.i0171
+	private var settingImageSet = Settings.default.sdoImageSet
 
 	// Resolutions
 	struct SDOResolution: Identifiable, Hashable {
@@ -49,13 +49,14 @@ struct SettingsView: View {
 	private let resolutions = SDOImage.Resolution.allCases.map { SDOResolution($0) }
 
 	@AppStorage(Settings.sdoResolution.rawValue)
-	private var settingResolution = SDODataManager.Resolution.x1024
-	@State private var selectedResolution = SDODataManager.Resolution.x1024
+	private var settingResolution = Settings.default.sdoResolution
+
+	@State private var selectedResolution = Settings.default.sdoResolution
 
 	// PFSS
 	@AppStorage(Settings.sdoPFSS.rawValue)
-	private var settingPFSS = true
-	@State private var selectedPFSS = false
+	private var settingPFSS = Settings.default.sdoPFSS
+	@State private var selectedPFSS = Settings.default.sdoPFSS
 
 	//TODO: It would be a nicer user experience if channel selection would disable resolutions which are not available.
 
