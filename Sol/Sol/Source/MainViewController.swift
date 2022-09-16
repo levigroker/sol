@@ -12,7 +12,7 @@ import SolData
 
 class MainViewController: UIViewController {
 
-	@IBOutlet private var imageScrollView: ImageScrollView!
+	@IBOutlet private var solImageScrollView: SolImageScrollView!
 
 	deinit {
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name("com.user.login.success"), object: nil)
@@ -38,7 +38,7 @@ class MainViewController: UIViewController {
 			Logger().error("Unable to load placeholder image.")
 			return
 		}
-		imageScrollView.display(image: image)
+		solImageScrollView.display(image: image)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
 					return
 				}
 				let image = try await SDODataManager.shared.image(sdoImages[0])
-				imageScrollView.display(image: image)
+				solImageScrollView.display(image: image)
 			}
 			catch {
 				Logger().error("\(error)")
