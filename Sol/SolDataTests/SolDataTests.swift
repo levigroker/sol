@@ -98,7 +98,7 @@ final class SolDataTests: XCTestCase {
 			XCTFail("Unexpectedly unable to create test date.")
 			return
 		}
-		let manager = SDODataManager()
+		let manager = SDODataManager.shared
 		let sdoImages = try await manager.sdoImages(date: date, imageSet: .i0094, resolution: .x512)
 		XCTAssertEqual(sdoImages.count, 193)
 	}
@@ -108,7 +108,7 @@ final class SolDataTests: XCTestCase {
 			XCTFail("Unexpectedly unable to create test date.")
 			return
 		}
-		let manager = SDODataManager()
+		let manager = SDODataManager.shared
 		try await manager.prefetchImages(date: date, imageSet: .i0094, resolution: .x512)
 		let dataStore = await manager.dataStoreFor(date: date)
 		var keys: [String] = try await dataStore.keys()

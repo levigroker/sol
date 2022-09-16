@@ -84,8 +84,11 @@ public actor SDODataManager {
 		case x3072 = "3072"
 		case x4096 = "4096"
 	}
+	/// Singleton
+	/// We only want one data manager managing things, so only create one
+	public static let shared = SDODataManager()
 
-	init() {
+	private init() {
 		remoteListings = Self.loadRemoteListings(dir: Self.dataStoreRootDir)
 	}
 
