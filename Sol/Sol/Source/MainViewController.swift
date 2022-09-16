@@ -12,12 +12,7 @@ import SolData
 
 class MainViewController: UIViewController {
 
-	@IBOutlet private var scrollView: UIScrollView!
-	@IBOutlet private var imageView: UIImageView!
-	@IBOutlet private var imageViewTopConstraint: NSLayoutConstraint!
-	@IBOutlet private var imageViewBottomConstraint: NSLayoutConstraint!
-	@IBOutlet private var imageViewLeadingConstraint: NSLayoutConstraint!
-	@IBOutlet private var imageViewTrailingConstraint: NSLayoutConstraint!
+	@IBOutlet private var imageScrollView: ImageScrollView!
 
 	deinit {
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name("com.user.login.success"), object: nil)
@@ -37,8 +32,32 @@ class MainViewController: UIViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(settingsChanged), name: Settings.notificationName, object: nil)
 	}
 
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		guard let image = UIImage(named: "placeholder") else {
+			Logger().error("Unable to load placeholder image.")
+			return
+		}
+		imageScrollView.display(image: image)
+	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+
+		Task {
+			do {
+				let sdoImages = try await SDODataManager.shared.sdoImages(date: Date(), imageSet: settingImageSet, resolution: settingResolution, pfss: settingPFSS)
+				guard !sdoImages.isEmpty else {
+					Logger().warning("No images for today.")
+					return
+				}
+				let image = try await SDODataManager.shared.image(sdoImages[0])
+				imageScrollView.display(image: image)
+			}
+			catch {
+				Logger().error("\(error)")
+			}
+		}
 	}
 
 	@IBSegueAction
@@ -66,44 +85,5 @@ Settings changed:
  settingResolution '\(self.settingResolution.rawValue)'
 	   settingPFSS '\(self.settingPFSS)'
 """)
-	}
-}
-
-extension MainViewController: UIScrollViewDelegate {
-	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-		return imageView
-	}
-
-	func scrollViewDidZoom(_ scrollView: UIScrollView) {
-		updateConstraintsForSize(view.bounds.size)
-	}
-
-	func updateConstraintsForSize(_ size: CGSize) {
-		let yOffset = max(0, (size.height - imageView.frame.height) / 2)
-		imageViewTopConstraint.constant = yOffset
-		imageViewBottomConstraint.constant = yOffset
-
-		let xOffset = max(0, (size.width - imageView.frame.width) / 2)
-		imageViewLeadingConstraint.constant = xOffset
-		imageViewTrailingConstraint.constant = xOffset
-
-		view.layoutIfNeeded()
-	}
-}
-
-// Zooming
-extension MainViewController {
-	func updateMinZoomScaleForSize(_ size: CGSize) {
-		let widthScale = size.width / imageView.bounds.width
-		let heightScale = size.height / imageView.bounds.height
-		let minScale = min(widthScale, heightScale)
-
-		scrollView.minimumZoomScale = minScale
-		scrollView.zoomScale = minScale
-	}
-
-	override func viewWillLayoutSubviews() {
-		super.viewWillLayoutSubviews()
-		updateMinZoomScaleForSize(view.bounds.size)
 	}
 }

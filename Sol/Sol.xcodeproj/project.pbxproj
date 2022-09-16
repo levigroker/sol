@@ -30,6 +30,7 @@
 		DB17F71428CD628A00684220 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71328CD628A00684220 /* DataStore.swift */; };
 		DB17F71628CD68DD00684220 /* FileSystemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */; };
 		DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71B28D03F5900684220 /* AboutViewController.swift */; };
+		DB76242928D423EC009571D8 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76242828D423EC009571D8 /* ImageScrollView.swift */; };
 		DBEE1C4628D0E50B00BA3E2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +113,7 @@
 		DB17F71328CD628A00684220 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		DB17F71528CD68DD00684220 /* FileSystemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemDataStore.swift; sourceTree = "<group>"; };
 		DB17F71B28D03F5900684220 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		DB76242828D423EC009571D8 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +164,7 @@
 				DB17F71B28D03F5900684220 /* AboutViewController.swift */,
 				DB17F6BA28CD20CC00684220 /* AppDelegate.swift */,
 				DB17F6BE28CD20CC00684220 /* MainViewController.swift */,
+				DB76242828D423EC009571D8 /* ImageScrollView.swift */,
 				DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */,
 				DB06A5A828D177E100C67598 /* Settings.swift */,
 				DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */,
@@ -493,6 +496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB06A5A928D177E100C67598 /* Settings.swift in Sources */,
+				DB76242928D423EC009571D8 /* ImageScrollView.swift in Sources */,
 				DB17F6BF28CD20CC00684220 /* MainViewController.swift in Sources */,
 				DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */,
 				DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */,
