@@ -39,9 +39,9 @@ actor SolActor {
 				Logger().debug("Creating new previousDayTask")
 				var updatedSDOImages = Array(sdoImages)
 				let task = Task<[SDOImage], Error> {
-					let oldestSDOImage = sdoImages[sdoImages.count - 1]
-					let previousDay = oldestSDOImage.day.previousDay
-					let previousDayImages = try await SDODataManager.shared.sdoImages(date: previousDay, imageSet: oldestSDOImage.imageSet, resolution: oldestSDOImage.resolution, pfss: oldestSDOImage.pfss)
+					let oldestSDOImage = sdoImages.last
+					let previousDay = oldestSDOImage?.day.previousDay ?? Date()
+					let previousDayImages = try await SDODataManager.shared.sdoImages(date: previousDay, imageSet: oldestSDOImage?.imageSet ?? settingImageSet, resolution: oldestSDOImage?.resolution ?? settingResolution, pfss: oldestSDOImage?.pfss ?? settingPFSS)
 					Logger().debug("found \(previousDayImages.count) older image\(previousDayImages.count == 1 ? "" : "s") in \(SDODataManager.fullDateFormatter.string(from: previousDay))...")
 					guard !previousDayImages.isEmpty else {
 						throw SolActorError.noData(message: "No older images available.")
@@ -70,6 +70,9 @@ actor SolActor {
 	}
 
 	func nextNewerImage() async throws -> UIImage {
+		guard !sdoImages.isEmpty else {
+			throw SolActorError.noData(message: "No images available.")
+		}
 		// NOTE: the sdoImage array is sorted in decending order, so to get a newer image decrease the index
 		var index = currentSDOImageIndx - 1
 		// Asking for more recent images than what we presently have
