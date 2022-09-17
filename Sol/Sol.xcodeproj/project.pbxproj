@@ -32,6 +32,7 @@
 		DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17F71B28D03F5900684220 /* AboutViewController.swift */; };
 		DB76242928D423EC009571D8 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76242828D423EC009571D8 /* ImageScrollView.swift */; };
 		DB76242B28D437CE009571D8 /* SolImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76242A28D437CE009571D8 /* SolImageScrollView.swift */; };
+		DB76242D28D588F5009571D8 /* SolActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76242C28D588F5009571D8 /* SolActor.swift */; };
 		DBEE1C4628D0E50B00BA3E2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		DB17F71B28D03F5900684220 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		DB76242828D423EC009571D8 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		DB76242A28D437CE009571D8 /* SolImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolImageScrollView.swift; sourceTree = "<group>"; };
+		DB76242C28D588F5009571D8 /* SolActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolActor.swift; sourceTree = "<group>"; };
 		DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,6 +173,7 @@
 				DB17F6BC28CD20CC00684220 /* SceneDelegate.swift */,
 				DB06A5A828D177E100C67598 /* Settings.swift */,
 				DBEE1C4528D0E50B00BA3E2B /* SettingsView.swift */,
+				DB76242C28D588F5009571D8 /* SolActor.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				DB76242928D423EC009571D8 /* ImageScrollView.swift in Sources */,
 				DB17F6BF28CD20CC00684220 /* MainViewController.swift in Sources */,
 				DB17F6BB28CD20CC00684220 /* AppDelegate.swift in Sources */,
+				DB76242D28D588F5009571D8 /* SolActor.swift in Sources */,
 				DB17F71C28D03F5900684220 /* AboutViewController.swift in Sources */,
 				DBEE1C4628D0E50B00BA3E2B /* SettingsView.swift in Sources */,
 				DB76242B28D437CE009571D8 /* SolImageScrollView.swift in Sources */,

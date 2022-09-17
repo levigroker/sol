@@ -8,14 +8,18 @@
 import UIKit
 import SwiftUI
 import os
-import SolData
 
+enum Sol: Error {
+	case error(message: String)
+}
+
+@MainActor
 class MainViewController: UIViewController {
 
 	@IBOutlet private var solImageScrollView: SolImageScrollView!
 
 	deinit {
-		NotificationCenter.default.removeObserver(self, name: NSNotification.Name("com.user.login.success"), object: nil)
+		NotificationCenter.default.removeObserver(self, name: Settings.notificationName, object: nil)
 	}
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -34,30 +38,18 @@ class MainViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		guard let image = UIImage(named: "placeholder") else {
-			Logger().error("Unable to load placeholder image.")
-			return
+		solImageScrollView.solImageScrollViewDelegate = self
+
+		// Kick off a task to display the latest actual image
+		Task {
+			if let image = try? await solActor.updateSDOImages() {
+				solImageScrollView.display(image: image)
+			}
 		}
-		solImageScrollView.display(image: image)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-
-		Task {
-			do {
-				let sdoImages = try await SDODataManager.shared.sdoImages(date: Date(), imageSet: settingImageSet, resolution: settingResolution, pfss: settingPFSS)
-				guard !sdoImages.isEmpty else {
-					Logger().warning("No images for today.")
-					return
-				}
-				let image = try await SDODataManager.shared.image(sdoImages[0])
-				solImageScrollView.display(image: image)
-			}
-			catch {
-				Logger().error("\(error)")
-			}
-		}
 	}
 
 	@IBSegueAction
@@ -65,25 +57,54 @@ class MainViewController: UIViewController {
 		return UIHostingController(coder: coder, rootView: SettingsView())
 	}
 
-	// Settings
-	@AppStorage(Settings.sdoImageSet.rawValue)
-	private var settingImageSet: SDOImage.ImageSet = Settings.default.sdoImageSet // swift compiler gets confused without specifying the type here
+	private let solActor = SolActor()
+}
 
-	@AppStorage(Settings.sdoResolution.rawValue)
-	private var settingResolution = Settings.default.sdoResolution
+extension MainViewController: SolImageScrollViewDelegate {
+	func imageRequested(direction: SolImageScrollView.ScrollDirection) {
+		switch direction {
+		case .leading:
+			Logger().info("leadingImageRequested")
+			Task {
+				do {
+					let image = try await solActor.nextOlderImage()
+					solImageScrollView.display(image: image)
+				}
+				catch {
+					Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
+				}
+			}
+		case .trailing:
+			Logger().info("trailingImageRequested")
+			Task {
+				do {
+					let image = try await solActor.nextNewerImage()
+					solImageScrollView.display(image: image)
+				}
+				catch {
+					Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
+				}
+			}
+		}
+	}
 
-	@AppStorage(Settings.sdoPFSS.rawValue)
-	private var settingPFSS = Settings.default.sdoPFSS
+	func spinRequested(direction: SolImageScrollView.ScrollDirection, velocity: Float) {
+		Logger().info("spinRequested direction '\(direction.rawValue)' velocity: '\(velocity)'")
+	}
 }
 
 @objc
 extension MainViewController {
 	func settingsChanged() {
-		Logger().info("""
-Settings changed:
-   settingImageSet '\(self.settingImageSet.rawValue)'
- settingResolution '\(self.settingResolution.rawValue)'
-	   settingPFSS '\(self.settingPFSS)'
-""")
+		Task {
+			do {
+				let image = try await self.solActor.updateSDOImages()
+				solImageScrollView.display(image: image)
+			}
+			catch {
+				//TODO: Present user with error and options to proceed
+				Logger().error("\(error)")
+			}
+		}
 	}
 }
