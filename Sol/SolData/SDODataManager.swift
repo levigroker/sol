@@ -74,7 +74,9 @@ public actor SDODataManager {
 			}
 			return nil
 		})
-		.sorted()
+		.sorted { (lhs: SDOImage, rhs: SDOImage) -> Bool in
+			return lhs > rhs
+		}
 
 		return sdoImages
 	}
