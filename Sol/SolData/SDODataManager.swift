@@ -331,7 +331,7 @@ public actor SDODataManager {
 		do {
 			// Make sure we have a directory to inspect
 			try FileManager.default.createDirectory(at: dataStoreRootDir, withIntermediateDirectories: true)
-			Logger().info("Created SDO root data directory: '\(self.dataStoreRootDir.path(percentEncoded: false))'")
+			Logger().info("SDO root data directory: '\(self.dataStoreRootDir.path(percentEncoded: false))'")
 			// Get all the remoteListing files in the given directory
 			let remoteListingFiles: [String: URL] = try FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsHiddenFiles).reduce(into: [:]) { partialResult, url in
 				guard let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory, isDir == false else {
@@ -344,6 +344,8 @@ public actor SDODataManager {
 				let filePrefix = String(filename.prefix(filename.count - Self.remoteListingFileSuffix.count))
 				partialResult[filePrefix] = url
 			}
+
+			Logger().info("Found \(remoteListingFiles.count) cached listing\(remoteListingFiles.count == 1 ? "" : "s"): [\(remoteListingFiles.keys.joined(separator: ", "))]")
 			return remoteListingFiles
 		}
 		catch {
