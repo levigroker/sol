@@ -53,14 +53,15 @@ public actor SDODataManager {
 	/// - parameter imageSet: The ImageSet which the images belong to
 	/// - parameter resolution: The desired Resolution of the images
 	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
-	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
-	public func sdoImages(date: Date, imageSet: SDOImage.ImageSet, resolution: SDOImage.Resolution, pfss: Bool = false) async throws -> [SDOImage] {
+	/// - parameter cacheOK: If `true` (default) use a cached listing if we have it and it is not outdated. If `false` always fetch the remote listing.
+	/// - returns: An array of SDOImages for the given day, with the most recent image at index 0 (sorted in decending order by date).
+	public func sdoImages(date: Date, imageSet: SDOImage.ImageSet, resolution: SDOImage.Resolution, pfss: Bool = false, cacheOK: Bool = true) async throws -> [SDOImage] {
 		// Create the regular expression to match our desired image names
 		let regex = Self.imageNameRegex(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
 		Logger().info("Looking for images with date '\(Self.fullDateFormatter.string(from: date))' imageSet: '\(imageSet.rawValue)' resolution: '\(resolution.rawValue)' pfss: '\(pfss ? "true" : "false")'")
 
 		// Get the listing of all images for the given day
-		let remoteImages = try await remoteImagesFor(date: date)
+		let remoteImages = try await remoteImagesFor(date: date, cacheOK: cacheOK)
 		let allFilenames = remoteImages.keys
 		// Filter to those matching the desired criteria
 		let matchingFilenames = allFilenames.filter { key in
@@ -179,22 +180,34 @@ public actor SDODataManager {
 
 	/// Gets a dictionary mapping filenames to remote URLs for images in the given day
 	/// - parameter date: A Date representing the day whose associated images to return
+	/// - parameter cacheOK: If `true` (default) use a cached listing if we have it and it is not outdated. If `false` always fetch the remote listing.
 	/// - returns: A Dictionary of remote URLs keyed by image filenames
-	func remoteImagesFor(date: Date) async throws -> [String: URL] {
+	func remoteImagesFor(date: Date, cacheOK: Bool = true) async throws -> [String: URL] {
 		let key = Self.fullDateFormatter.string(from: date)
-		let today = Self.fullDateFormatter.string(from: Date())
-
-		// If the desired listing is for the current day, we need to refetch it, as the listing is updated throughout the day.
-		if key == today {
-			return try await Self.remoteListingFor(date: date)
-		}
 
 		// Use a cached listing file, if we have one.
-		if let existingListingFile = remoteListings[key] {
-			return try await Self.readListingsFile(existingListingFile)
+		if cacheOK, let existingListingFile = remoteListings[key] {
+			var useCache = true
+			let now = Date()
+			let today = Self.fullDateFormatter.string(from: now)
+			// If the desired listing is for the current day, we may need to refetch it, as the listing is updated throughout the day.
+			if key == today {
+				let attributes = try? FileManager.default.attributesOfItem(atPath: existingListingFile.path(percentEncoded: false))
+				let modDate = (attributes as? NSDictionary)?.fileModificationDate()
+				var modDateStr = "<unknown>"
+				if let modDate {
+					modDateStr = "\(modDate)"
+				}
+				let timeDistance = now.distance(to: modDate ?? Date.distantPast)
+				useCache = timeDistance < Self.refreshInterval
+				Logger().debug("Today's cached listing file was last modified on '\(modDateStr)'. \(useCache ? "New enough." : "Too old; will refresh.")")
+			}
+			if useCache {
+				return try await Self.readListingsFile(existingListingFile)
+			}
 		}
 
-		// The desired listing is not for today and not already cached, so
+		// The desired listing is not already cached, so
 		// fetch and cache the listing
 		let listing = try await Self.remoteListingFor(date: date)
 		let listingFile = try await Self.cacheRemote(listing: listing, to: Self.dataStoreRootDir, for: date)
@@ -323,6 +336,10 @@ public actor SDODataManager {
 
 	/// The file suffix for remote listing files
 	private static let remoteListingFileSuffix = "_listing.json"
+
+	/// The maximum time before refreshing today's file listing
+	private static let refreshInterval: TimeInterval = 60 * 15 // 15 minutes
+
 
 	/// Inspects the filesystem for remote listing files in the given directory
 	///	- parameter dir: A URL representing the directory to inspect for cached listing files
