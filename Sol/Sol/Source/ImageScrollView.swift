@@ -68,18 +68,26 @@ public class ImageScrollView: UIScrollView {
 			let sizeChanging = !CGSizeEqualToSize(newValue.size, frame.size)
 
 			if sizeChanging {
-				//prepareToResize()
+				prepareToResize()
 			}
 
 			super.frame = newValue
 
 			if sizeChanging {
-				//recoverFromResizing()
+				recoverFromResizing()
 			}
 		}
 	}
 
 	public func display(image: UIImage) {
+
+		// If the new image is the same size as our current image we will keep the same zoom/scale configuration for the new image
+		let sameSize = zoomView?.image?.size == image.size
+
+		if sameSize {
+			prepareToResize()
+		}
+
 		// clear the previous image
 		zoomView?.removeFromSuperview()
 		zoomView = nil
@@ -93,6 +101,10 @@ public class ImageScrollView: UIScrollView {
 		addSubview(imageView)
 
 		configureForImage(size: image.size)
+
+		if sameSize {
+			recoverFromResizing()
+		}
 	}
 
 	func configureForImage(size: CGSize) {

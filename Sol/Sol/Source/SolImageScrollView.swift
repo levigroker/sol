@@ -51,23 +51,26 @@ extension SolImageScrollView {
 		let velocityX = sender.velocity(in: self).x
 		let translationX = sender.translation(in: self).x
 
-		// Only consider the pan "moved" if it has moved accross a threshold boundary
-		// NOTE: This is not a delta between pan events, but an event describing a transition accross a threshold value, which is why we only update panGestureLastX on a "move"
-		let moved = abs(translationX - panGestureLastX) >= Self.panGestureDeltaThreshold
-		if moved {
-			panGestureLastX = translationX
-		}
-		let direction: ScrollDirection = velocityX < 0 ? .leading : .trailing
-
-		switch sender.state {
-		case .changed:
+		// Allow panning of the scroll view to take place normally unless it's up against either side,
+		// in which case we will interpret that as a desire for older/newer content
+		if contentOffset.x <= 0 || contentOffset.x >= floor(contentSize.width) - bounds.size.width {
+			// Only consider the pan "moved" if it has moved accross a threshold boundary
+			// NOTE: This is not a delta between pan events, but an event describing a transition accross a threshold value, which is why we only update panGestureLastX on a "move"
+			let moved = abs(translationX - panGestureLastX) >= Self.panGestureDeltaThreshold
 			if moved {
-				solImageScrollViewDelegate?.imageRequested(direction: direction)
+				panGestureLastX = translationX
 			}
-		case .ended:
-			solImageScrollViewDelegate?.spinRequested(direction: direction, velocity: Float(velocityX))
-		default:
-			break // Do nothing
+			let direction: ScrollDirection = velocityX < 0 ? .leading : .trailing
+			switch sender.state {
+			case .changed:
+				if moved {
+					solImageScrollViewDelegate?.imageRequested(direction: direction)
+				}
+			case .ended:
+				solImageScrollViewDelegate?.spinRequested(direction: direction, velocity: Float(velocityX))
+			default:
+				break // Do nothing
+			}
 		}
 	}
 }
