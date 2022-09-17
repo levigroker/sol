@@ -200,7 +200,7 @@ public actor SDODataManager {
 				if let modDate {
 					modDateStr = "\(modDate)"
 				}
-				let timeDistance = now.distance(to: modDate ?? Date.distantPast)
+				let timeDistance = (modDate ?? Date.distantPast).distance(to: now)
 				useCache = timeDistance < Self.refreshInterval
 				Logger().debug("Today's cached listing file was last modified on '\(modDateStr)' (\(timeDistance / 60) minutes ago). \(useCache ? "New enough." : "Too old; will refresh.")")
 			}
