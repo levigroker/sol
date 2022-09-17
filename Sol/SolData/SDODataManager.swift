@@ -202,7 +202,7 @@ public actor SDODataManager {
 				}
 				let timeDistance = now.distance(to: modDate ?? Date.distantPast)
 				useCache = timeDistance < Self.refreshInterval
-				Logger().debug("Today's cached listing file was last modified on '\(modDateStr)'. \(useCache ? "New enough." : "Too old; will refresh.")")
+				Logger().debug("Today's cached listing file was last modified on '\(modDateStr)' (\(timeDistance / 60) minutes ago). \(useCache ? "New enough." : "Too old; will refresh.")")
 			}
 			if useCache {
 				return try await Self.readListingsFile(existingListingFile)
@@ -364,7 +364,7 @@ public actor SDODataManager {
 				partialResult[filePrefix] = url
 			}
 
-			Logger().info("Found \(remoteListingFiles.count) cached listing\(remoteListingFiles.count == 1 ? "" : "s"): [\(remoteListingFiles.keys.joined(separator: ", "))]")
+			Logger().info("Found \(remoteListingFiles.count) cached listing\(remoteListingFiles.count == 1 ? "" : "s"): [\(remoteListingFiles.keys.sorted().joined(separator: ", "))]")
 			return remoteListingFiles
 		}
 		catch {

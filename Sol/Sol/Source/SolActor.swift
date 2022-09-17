@@ -18,11 +18,12 @@ enum SolActorError: Error {
 actor SolActor {
 
 	func updateSDOImages() async throws -> UIImage {
-		sdoImages = try await SDODataManager.shared.sdoImages(date: Date(), imageSet: settingImageSet, resolution: settingResolution, pfss: settingPFSS)
+		let now = Date()
+		sdoImages = try await SDODataManager.shared.sdoImages(date: now, imageSet: settingImageSet, resolution: settingResolution, pfss: settingPFSS)
 		currentSDOImageIndx = 0
 		let mostRecent = sdoImages.first
 		guard let mostRecent = mostRecent else {
-			throw SolActorError.noData(message: "No images available for today yet.")
+			throw SolActorError.noData(message: "No images available for today (\(SDODataManager.fullDateFormatter.string(from: now)))yet.")
 		}
 		let image = try await SDODataManager.shared.image(mostRecent)
 		return image
