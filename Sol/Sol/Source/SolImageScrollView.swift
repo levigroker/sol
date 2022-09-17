@@ -6,8 +6,21 @@
 //
 
 import UIKit
+import os
+
+public protocol SolImageScrollViewDelegate: AnyObject {
+	func imageRequested(direction: SolImageScrollView.ScrollDirection)
+	func spinRequested(direction: SolImageScrollView.ScrollDirection, velocity: Float)
+}
 
 public class SolImageScrollView: ImageScrollView {
+
+	public enum ScrollDirection: String {
+		case leading
+		case trailing
+	}
+
+	public weak var solImageScrollViewDelegate: SolImageScrollViewDelegate?
 
 	override func setup() {
 		super.setup()
@@ -22,6 +35,12 @@ public class SolImageScrollView: ImageScrollView {
 		panGestureRecognizer.delegate = self
 		addGestureRecognizer(panGestureRecognizer)
 	}
+
+	// The last x position considered as a "move"
+	private var panGestureLastX = CGFloat.zero
+
+	// The increment needed for a pan to be considered a "move"
+	static let panGestureDeltaThreshold: CGFloat = 0.5
 }
 
 // MARK: - Actions
@@ -29,16 +48,27 @@ extension SolImageScrollView {
 
 	@objc
 	private func didPan(_ sender: UIPanGestureRecognizer) {
-		let velocity = sender.velocity(in: self)
-		//contentOffset '(316.0, 0.0)' contentSize '(707.7255506179761, 707.7255506179761)' bounds.size '(393.0, 852.0)
-		let draggingLeft = velocity.x < 0.0
-		if draggingLeft && contentOffset.x >= contentSize.width - bounds.size.width {
-			print("pulling to the left")
+		let velocityX = sender.velocity(in: self).x
+		let translationX = sender.translation(in: self).x
+
+		// Only consider the pan "moved" if it has moved accross a threshold boundary
+		// NOTE: This is not a delta between pan events, but an event describing a transition accross a threshold value, which is why we only update panGestureLastX on a "move"
+		let moved = abs(translationX - panGestureLastX) >= Self.panGestureDeltaThreshold
+		if moved {
+			panGestureLastX = translationX
 		}
-		else if !draggingLeft && contentOffset.x <= 0 {
-			print("pulling to the right")
+		let direction: ScrollDirection = velocityX < 0 ? .leading : .trailing
+
+		switch sender.state {
+		case .changed:
+			if moved {
+				solImageScrollViewDelegate?.imageRequested(direction: direction)
+			}
+		case .ended:
+			solImageScrollViewDelegate?.spinRequested(direction: direction, velocity: Float(velocityX))
+		default:
+			break // Do nothing
 		}
-		print("contentOffset '\(contentOffset)' contentSize '\(contentSize)' bounds.size '\(bounds.size)' velocity '\(velocity)'")
 	}
 }
 
