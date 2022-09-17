@@ -7,13 +7,14 @@
 
 import UIKit
 
+/// Holds information about an image from the SDO spacecraft
 public struct SDOImage: Comparable {
-	let key: SDOImageKey
-	let day: Date
-	let imageSet: ImageSet
-	let resolution: Resolution
-	let pfss: Bool
-	let remoteURL: URL
+	public let key: SDOImageKey
+	public let day: Date
+	public let imageSet: ImageSet
+	public let resolution: Resolution
+	public let pfss: Bool
+	public let remoteURL: URL
 	var state: State
 
 	init(key: SDOImageKey, day: Date, imageSet: ImageSet, resolution: Resolution, pfss: Bool, remoteURL: URL, state: State = State.uninitiated) {
@@ -112,4 +113,5 @@ public struct SDOImage: Comparable {
 		lhs.key < rhs.key
 	}
 }
-typealias SDOImageKey = String
+
+public typealias SDOImageKey = String
