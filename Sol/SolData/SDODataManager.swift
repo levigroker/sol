@@ -250,7 +250,7 @@ public actor SDODataManager {
 		let month = Self.monthDateFormatter.string(from: date)
 		let day = Self.dayDateFormatter.string(from: date)
 		var url = baseSDOImageURL.appending(path: year, directoryHint: .isDirectory).appending(path: month, directoryHint: .isDirectory).appending(path: day, directoryHint: .isDirectory)
-		if let filename = filename {
+		if let filename {
 			url.append(path: filename, directoryHint: .notDirectory)
 		}
 
@@ -263,7 +263,7 @@ public actor SDODataManager {
 	func dataStoreFor(date: Date) -> DataStore {
 		let key = Self.fullDateFormatter.string(from: date)
 		let existingDataStore = dataStores[key]
-		if let existingDataStore = existingDataStore {
+		if let existingDataStore {
 			return existingDataStore
 		}
 		let rootDir = Self.dataStoreRootDir.appending(path: key, directoryHint: .isDirectory)
