@@ -272,22 +272,22 @@ public actor SDODataManager {
 		return dataStore
 	}
 
-	static var yearDateFormatter: DateFormatter {
+	public static var yearDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy" // Like "2022"
 		return formatter
 	}
-	static var monthDateFormatter: DateFormatter {
+	public static var monthDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "MM" // Like "10"
 		return formatter
 	}
-	static var dayDateFormatter: DateFormatter {
+	public static var dayDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "dd" // Like "05"
 		return formatter
 	}
-	static var fullDateFormatter: DateFormatter {
+	public static var fullDateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyyMMdd" // Like "20221005"
 		return formatter
