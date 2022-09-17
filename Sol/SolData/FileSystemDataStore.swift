@@ -22,7 +22,7 @@ struct FileSystemDataStore {
 		self.rootDir = rootDir
 		do {
 			try FileManager.default.createDirectory(at: rootDir, withIntermediateDirectories: true)
-			Logger().info("Created DataStore directory: '\(rootDir.path(percentEncoded: false))'")
+			Logger().info("DataStore directory: '\(rootDir.path(percentEncoded: false))'")
 		}
 		catch {
 			Logger().error("Unable to create DataStore directory '\(rootDir.path(percentEncoded: false))'. Error: \(error)")
