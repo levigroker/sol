@@ -9,15 +9,15 @@ import UIKit
 import os
 
 public protocol SolImageScrollViewDelegate: AnyObject {
-	func imageRequested(direction: SolImageScrollView.ScrollDirection)
-	func spinRequested(direction: SolImageScrollView.ScrollDirection, velocity: Float)
+	func imageRequested(direction: SolImageScrollView.TimeDirection)
+	func spinRequested(direction: SolImageScrollView.TimeDirection, velocity: Float)
 }
 
 public class SolImageScrollView: ImageScrollView {
 
-	public enum ScrollDirection: String {
-		case leading
-		case trailing
+	public enum TimeDirection: String {
+		case older
+		case newer
 	}
 
 	public weak var solImageScrollViewDelegate: SolImageScrollViewDelegate?
@@ -60,7 +60,7 @@ extension SolImageScrollView {
 			if moved {
 				panGestureLastX = translationX
 			}
-			let direction: ScrollDirection = velocityX < 0 ? .leading : .trailing
+			let direction: TimeDirection = velocityX > 0 ? .newer : .older
 			switch sender.state {
 			case .changed:
 				if moved {

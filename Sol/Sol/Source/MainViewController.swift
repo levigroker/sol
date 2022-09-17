@@ -62,9 +62,9 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: SolImageScrollViewDelegate {
-	func imageRequested(direction: SolImageScrollView.ScrollDirection) {
+	func imageRequested(direction: SolImageScrollView.TimeDirection) {
 		switch direction {
-		case .leading:
+		case .older:
 			Logger().info("leadingImageRequested")
 			Task {
 				do {
@@ -82,7 +82,7 @@ extension MainViewController: SolImageScrollViewDelegate {
 					}
 				}
 			}
-		case .trailing:
+		case .newer:
 			Logger().info("trailingImageRequested")
 			Task {
 				do {
@@ -103,7 +103,7 @@ extension MainViewController: SolImageScrollViewDelegate {
 		}
 	}
 
-	func spinRequested(direction: SolImageScrollView.ScrollDirection, velocity: Float) {
+	func spinRequested(direction: SolImageScrollView.TimeDirection, velocity: Float) {
 		Logger().info("spinRequested direction '\(direction.rawValue)' velocity: '\(velocity)'")
 	}
 }
