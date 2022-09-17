@@ -136,9 +136,9 @@ public actor SDODataManager {
 	/// Fetches the Data of the given images and attempts to write it to the given data store
 	/// - parameter sdoImage: The image metadata of the desired image
 	/// - parameter dataStore: The DataStore instance to write the image data to
-	/// - returns: The image data for the desired image
 	static func fetchRemote(sdoImages: [SDOImage], to dataStore: DataStore) async throws {
 		var retries = [SDOImage]()
+		//NOTE: We're just doing these fetches sequentially at this time
 		for sdoImage in sdoImages {
 			do {
 				_ = try await fetchRemoteData(sdoImage: sdoImage, to: dataStore, storeFailureThrows: true)
