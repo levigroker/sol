@@ -32,6 +32,10 @@
                                     <segue destination="MoY-Og-fML" kind="presentation" destinationCreationSelector="presentSettingsView:" id="Zjx-z3-vkI"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ngh-Sy-zgM">
+                                <rect key="frame" x="311" y="782.66666666666663" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bc-a0-HRS">
                                 <rect key="frame" x="17" y="775" width="50" height="35"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -53,12 +57,15 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="l0V-df-P4G" secondAttribute="trailing" constant="16" id="K4v-QW-NU6"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="M3S-fx-HMN"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="aY7-QP-BVO"/>
+                            <constraint firstItem="ngh-Sy-zgM" firstAttribute="centerY" secondItem="l0V-df-P4G" secondAttribute="centerY" id="bG5-bC-X6D"/>
+                            <constraint firstItem="ngh-Sy-zgM" firstAttribute="trailing" secondItem="l0V-df-P4G" secondAttribute="leading" constant="8" symbolic="YES" id="baa-PH-bzc"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cfV-uJ-kcP"/>
                             <constraint firstItem="l0V-df-P4G" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4bc-a0-HRS" secondAttribute="trailing" constant="8" symbolic="YES" id="lxf-OE-Zml"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="pgv-Ju-hkM"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="ngh-Sy-zgM" id="MIs-B8-weZ"/>
                         <outlet property="solImageScrollView" destination="id6-rH-rGx" id="07y-rH-45d"/>
                     </connections>
                 </viewController>

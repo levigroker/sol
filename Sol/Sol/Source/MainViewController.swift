@@ -16,6 +16,7 @@ enum Sol: Error {
 @MainActor
 class MainViewController: UIViewController {
 
+	@IBOutlet private var activityIndicatorView: UIActivityIndicatorView!
 	@IBOutlet private var solImageScrollView: SolImageScrollView!
 
 	deinit {
@@ -69,9 +70,16 @@ extension MainViewController: SolImageScrollViewDelegate {
 				do {
 					let image = try await solActor.nextOlderImage()
 					solImageScrollView.display(image: image)
+					activityIndicatorView.stopAnimating()
 				}
 				catch {
 					Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
+					switch error {
+					case SolActorError.inProgress:
+						activityIndicatorView.startAnimating()
+					default:
+						break
+					}
 				}
 			}
 		case .trailing:
@@ -80,9 +88,16 @@ extension MainViewController: SolImageScrollViewDelegate {
 				do {
 					let image = try await solActor.nextNewerImage()
 					solImageScrollView.display(image: image)
+					activityIndicatorView.stopAnimating()
 				}
 				catch {
 					Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
+					switch error {
+					case SolActorError.inProgress:
+						activityIndicatorView.startAnimating()
+					default:
+						break
+					}
 				}
 			}
 		}
