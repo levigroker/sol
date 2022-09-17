@@ -40,7 +40,7 @@ actor SolActor {
 				let task = Task<[SDOImage], Error> {
 					let oldestSDOImage = sdoImages[sdoImages.count - 1]
 					let previousDay = oldestSDOImage.day.previousDay
-					var previousDayImages = try await SDODataManager.shared.sdoImages(date: previousDay, imageSet: oldestSDOImage.imageSet, resolution: oldestSDOImage.resolution, pfss: oldestSDOImage.pfss)
+					let previousDayImages = try await SDODataManager.shared.sdoImages(date: previousDay, imageSet: oldestSDOImage.imageSet, resolution: oldestSDOImage.resolution, pfss: oldestSDOImage.pfss)
 					Logger().debug("found \(previousDayImages.count) older image\(previousDayImages.count == 1 ? "" : "s") in \(SDODataManager.fullDateFormatter.string(from: previousDay))...")
 					guard !previousDayImages.isEmpty else {
 						throw SolActorError.noData(message: "No older images available.")
