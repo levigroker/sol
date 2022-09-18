@@ -51,10 +51,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="4bc-a0-HRS" secondAttribute="bottom" id="3Kl-SV-hCz"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="l0V-df-P4G" secondAttribute="bottom" id="Iv2-NP-pPg"/>
+                            <constraint firstItem="4bc-a0-HRS" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="3Kl-SV-hCz"/>
+                            <constraint firstItem="l0V-df-P4G" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Iv2-NP-pPg"/>
                             <constraint firstItem="4bc-a0-HRS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="17" id="JS6-hX-I6U"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="l0V-df-P4G" secondAttribute="trailing" constant="16" id="K4v-QW-NU6"/>
+                            <constraint firstItem="l0V-df-P4G" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-16" id="K4v-QW-NU6"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="M3S-fx-HMN"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="aY7-QP-BVO"/>
                             <constraint firstItem="ngh-Sy-zgM" firstAttribute="centerY" secondItem="l0V-df-P4G" secondAttribute="centerY" id="bG5-bC-X6D"/>
