@@ -29,7 +29,6 @@ public actor SDODataManager {
 	/// - parameter imageSet: The ImageSet which the images belong to
 	/// - parameter resolution: The desired Resolution of the images
 	/// - parameter pfss: Should the images belong to the `pfss` subset (defaults to `false`)?
-	/// - returns: A tuple containing the desired image keys and the appropriate DataStore
 	public func prefetchImages(date: Date, imageSet: SDOImage.ImageSet, resolution: SDOImage.Resolution, pfss: Bool = false) async throws {
 		let sdoImages = try await sdoImages(date: date, imageSet: imageSet, resolution: resolution, pfss: pfss)
 		let sdoImagesByKey = sdoImages.reduce(into: [:]) { partialResult, sdoImage in
@@ -46,6 +45,28 @@ public actor SDODataManager {
 
 		// Fetch all needed images from the remote system and cache them in the DataStore
 		try await Self.fetchRemote(sdoImages: neededSDOImages, to: dataStore)
+	}
+
+	/// Populates local cache for given SDOImages
+	/// - parameter sdoImages: An array of SDOImages to pre-fetch
+	public func prefetch(sdoImages: [SDOImage]) async throws {
+		let task = Task {
+			for sdoImage in sdoImages {
+				let dataStore = dataStoreFor(date: sdoImage.day)
+				// Is the image already in the data store?
+				let exists = try await dataStore.exists(key: sdoImage.key)
+				// If not, then fetch the image the remote system and cache them in the DataStore
+				if !exists {
+					do {
+						_ = try await Self.fetchRemoteData(sdoImage: sdoImage, to: dataStore, storeFailureThrows: true)
+					}
+					catch {
+						Logger().error("Fetching remote '\(sdoImage.key)' encountered error: \(error)")
+					}
+				}
+			}
+		}
+		//		try await task.value
 	}
 
 	/// Gathers metadata for images with the given criteria.

@@ -19,6 +19,12 @@ actor SolActor {
 
 	func updateSDOImages() async throws -> UIImage {
 		let now = Date()
+		// Kick off a pre-fetch of what is configured in User Defaults
+		// NOTE: we don't care if this fails or need to await it here... we just want to ensure we have a head start on the expected data needs
+		Task {
+			try? await SDODataManager.shared.prefetchImages(date: now, imageSet: Settings.sdoImageSet(), resolution: Settings.sdoResolution(), pfss: Settings.sdoPFSS())
+		}
+
 		sdoImages = try await SDODataManager.shared.sdoImages(date: now, imageSet: Settings.sdoImageSet(), resolution: Settings.sdoResolution(), pfss: Settings.sdoPFSS())
 		currentSDOImageIndx = 0
 		let mostRecent = sdoImages.first
@@ -34,9 +40,8 @@ actor SolActor {
 		let index = currentSDOImageIndx + 1
 		// Asking for older images than we have
 		if index >= sdoImages.count {
-			Logger().debug("Asking for older images than we have...")
 			if previousDayTask == nil {
-				Logger().debug("Creating new previousDayTask")
+				Logger().debug("Asking for older images than we have... (creating new previousDayTask)")
 				var updatedSDOImages = Array(sdoImages)
 				let task = Task<[SDOImage], Error> {
 					let oldestSDOImage = sdoImages.last
@@ -46,15 +51,15 @@ actor SolActor {
 					guard !previousDayImages.isEmpty else {
 						throw SolActorError.noData(message: "No older images available.")
 					}
+					Logger().debug("prefetching images for \(SDODataManager.fullDateFormatter.string(from: previousDay))")
+					try await SDODataManager.shared.prefetch(sdoImages: previousDayImages)
 					updatedSDOImages.append(contentsOf: previousDayImages)
 					return updatedSDOImages
 				}
-				Logger().debug("Assigning new previousDayTask")
 				previousDayTask = task
 				Logger().debug("Awaiting new previousDayTask")
 				sdoImages = try await task.value
-				Logger().debug("sdoImages.count: \(self.sdoImages.count)")
-				Logger().debug("Nilling new previousDayTask")
+				Logger().debug("previousDayTask complete. sdoImages.count: \(self.sdoImages.count)")
 				previousDayTask = nil
 			}
 			else {
@@ -74,10 +79,10 @@ actor SolActor {
 			throw SolActorError.noData(message: "No images available.")
 		}
 		// NOTE: the sdoImage array is sorted in decending order, so to get a newer image decrease the index
-		var index = currentSDOImageIndx - 1
+		let index = currentSDOImageIndx - 1
 		// Asking for more recent images than what we presently have
 		if index < 0 {
-			Logger().error("Fetching newer images not implemented yet")
+			throw SolActorError.noData(message: "Fetching newer images not implemented yet")
 			// TODO : Need a way to get the deltas from what we have already for today and reload
 			//			sdoImages = try await SDODataManager.shared.sdoImages(date: Date(), imageSet: settingImageSet, resolution: settingResolution, pfss: settingPFSS, cacheOK: false)
 			//			let mostRecent = sdoImages.first
@@ -85,7 +90,6 @@ actor SolActor {
 			//				throw Sol.error(message: "No images available for today.")
 			//			}
 			//			let image = try await SDODataManager.shared.image(mostRecent)
-			index = 0
 		}
 
 		currentSDOImageIndx = index

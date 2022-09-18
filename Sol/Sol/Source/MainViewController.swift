@@ -59,44 +59,31 @@ class MainViewController: UIViewController {
 	}
 
 	private let solActor = SolActor()
+	private var spinTask: Task<Void, Error>?
 }
 
 extension MainViewController: SolImageScrollViewDelegate {
 	func imageRequested(direction: SolImageScrollView.TimeDirection) {
-		Logger().info("imageRequested \(direction.rawValue)")
-		switch direction {
-		case .older:
-			Task {
-				do {
-					let image = try await solActor.nextOlderImage()
-					solImageScrollView.display(image: image)
-					activityIndicatorView.stopAnimating()
+		Task {
+			Logger().info("imageRequested \(direction.rawValue)")
+			let image: UIImage
+			do {
+				switch direction {
+				case .older:
+					image = try await solActor.nextOlderImage()
+				case .newer:
+					image = try await solActor.nextNewerImage()
 				}
-				catch {
-					Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
-					switch error {
-					case SolActorError.inProgress:
-						activityIndicatorView.startAnimating()
-					default:
-						break
-					}
-				}
+				solImageScrollView.display(image: image)
+				activityIndicatorView.stopAnimating()
 			}
-		case .newer:
-			Task {
-				do {
-					let image = try await solActor.nextNewerImage()
-					solImageScrollView.display(image: image)
-					activityIndicatorView.stopAnimating()
-				}
-				catch {
-					Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
-					switch error {
-					case SolActorError.inProgress:
-						activityIndicatorView.startAnimating()
-					default:
-						break
-					}
+			catch {
+				Logger().error("imageRequested \(direction.rawValue) encountered error: \(error)")
+				switch error {
+				case SolActorError.inProgress:
+					activityIndicatorView.startAnimating()
+				default:
+					break
 				}
 			}
 		}
@@ -104,6 +91,42 @@ extension MainViewController: SolImageScrollViewDelegate {
 
 	func spinRequested(direction: SolImageScrollView.TimeDirection, velocity: Float) {
 		Logger().info("spinRequested direction '\(direction.rawValue)' velocity: '\(velocity)'")
+		spinTask?.cancel()
+		spinTask = Task {
+			var run = true
+			while run {
+				try Task.checkCancellation()
+
+				let image: UIImage
+				do {
+					switch direction {
+					case .older:
+						image = try await solActor.nextOlderImage()
+					case .newer:
+						image = try await solActor.nextNewerImage()
+					}
+					try Task.checkCancellation()
+					solImageScrollView.display(image: image)
+					activityIndicatorView.stopAnimating()
+					try await Task.sleep(nanoseconds: 100_000_000 /* 0.1 second */)
+				}
+				catch {
+					Logger().error("spinRequested \(direction.rawValue) encountered error: \(error)")
+					switch error {
+					case SolActorError.inProgress:
+						activityIndicatorView.startAnimating()
+						try await Task.sleep(nanoseconds: 1_100_000_000 /* 1.0 second */)
+					default:
+						run = false
+					}
+				}
+			}
+		}
+	}
+
+	func spinStop() {
+		spinTask?.cancel()
+		spinTask = nil
 	}
 }
 
