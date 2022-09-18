@@ -63,9 +63,9 @@ class MainViewController: UIViewController {
 
 extension MainViewController: SolImageScrollViewDelegate {
 	func imageRequested(direction: SolImageScrollView.TimeDirection) {
+		Logger().info("imageRequested \(direction.rawValue)")
 		switch direction {
 		case .older:
-			Logger().info("leadingImageRequested")
 			Task {
 				do {
 					let image = try await solActor.nextOlderImage()
@@ -83,7 +83,6 @@ extension MainViewController: SolImageScrollViewDelegate {
 				}
 			}
 		case .newer:
-			Logger().info("trailingImageRequested")
 			Task {
 				do {
 					let image = try await solActor.nextNewerImage()

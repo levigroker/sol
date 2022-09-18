@@ -19,7 +19,7 @@ actor SolActor {
 
 	func updateSDOImages() async throws -> UIImage {
 		let now = Date()
-		sdoImages = try await SDODataManager.shared.sdoImages(date: now, imageSet: settingImageSet, resolution: settingResolution, pfss: settingPFSS)
+		sdoImages = try await SDODataManager.shared.sdoImages(date: now, imageSet: Settings.sdoImageSet(), resolution: Settings.sdoResolution(), pfss: Settings.sdoPFSS())
 		currentSDOImageIndx = 0
 		let mostRecent = sdoImages.first
 		guard let mostRecent = mostRecent else {
@@ -41,7 +41,7 @@ actor SolActor {
 				let task = Task<[SDOImage], Error> {
 					let oldestSDOImage = sdoImages.last
 					let previousDay = oldestSDOImage?.day.previousDay ?? Date()
-					let previousDayImages = try await SDODataManager.shared.sdoImages(date: previousDay, imageSet: oldestSDOImage?.imageSet ?? settingImageSet, resolution: oldestSDOImage?.resolution ?? settingResolution, pfss: oldestSDOImage?.pfss ?? settingPFSS)
+					let previousDayImages = try await SDODataManager.shared.sdoImages(date: previousDay, imageSet: oldestSDOImage?.imageSet ?? Settings.sdoImageSet(), resolution: oldestSDOImage?.resolution ?? Settings.sdoResolution(), pfss: oldestSDOImage?.pfss ?? Settings.sdoPFSS())
 					Logger().debug("found \(previousDayImages.count) older image\(previousDayImages.count == 1 ? "" : "s") in \(SDODataManager.fullDateFormatter.string(from: previousDay))...")
 					guard !previousDayImages.isEmpty else {
 						throw SolActorError.noData(message: "No older images available.")
@@ -99,16 +99,6 @@ actor SolActor {
 	private var sdoImages = [SDOImage]()
 	private var currentSDOImageIndx = 0
 	private var previousDayTask: Task<[SDOImage], Error>?
-
-	// Settings
-	@AppStorage(Settings.sdoImageSet.rawValue)
-	private var settingImageSet: SDOImage.ImageSet = Settings.default.sdoImageSet // swift compiler gets confused without specifying the type here
-
-	@AppStorage(Settings.sdoResolution.rawValue)
-	private var settingResolution = Settings.default.sdoResolution
-
-	@AppStorage(Settings.sdoPFSS.rawValue)
-	private var settingPFSS = Settings.default.sdoPFSS
 }
 
 extension Date {

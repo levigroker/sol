@@ -13,8 +13,44 @@ public enum Settings: String {
 	case sdoResolution
 	case sdoPFSS
 
+	static func sdoImageSet() -> SDOImage.ImageSet {
+		guard let string = UserDefaults.standard.string(forKey: sdoImageSet.rawValue), let value = SDOImage.ImageSet(rawValue: string) else {
+			return Settings.default.sdoImageSet
+		}
+		return value
+	}
+
+	static func setSDOImageSet(imageSet: SDOImage.ImageSet) {
+		UserDefaults.standard.set(imageSet.rawValue, forKey: sdoImageSet.rawValue)
+		postChangeNotification()
+	}
+
+	static func sdoResolution() -> SDOImage.Resolution {
+		guard let string = UserDefaults.standard.string(forKey: sdoResolution.rawValue), let value = SDOImage.Resolution(rawValue: string) else {
+			return Settings.default.sdoResolution
+		}
+		return value
+	}
+
+	static func setSDOResolution(resolution: SDOImage.Resolution) {
+		UserDefaults.standard.set(resolution.rawValue, forKey: sdoResolution.rawValue)
+		postChangeNotification()
+	}
+
+	static func sdoPFSS() -> Bool {
+		guard let string = UserDefaults.standard.string(forKey: sdoPFSS.rawValue), let value = Bool(string) else {
+			return Settings.default.sdoPFSS
+		}
+		return value
+	}
+
+	static func setSDOPFSS(pfss: Bool) {
+		UserDefaults.standard.set(pfss.description, forKey: sdoPFSS.rawValue)
+		postChangeNotification()
+	}
+
 	static func postChangeNotification() {
-		NotificationCenter.default.post(name: Settings.notificationName, object: nil)
+		NotificationCenter.default.post(name: notificationName, object: nil)
 	}
 
 	static var notificationName: Notification.Name {

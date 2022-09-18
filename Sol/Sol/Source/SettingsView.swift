@@ -32,8 +32,7 @@ struct SettingsView: View {
 
 	private let imageSets = SDOImage.ImageSet.allCases.map { SDOImageSet($0) }
 
-	@AppStorage(Settings.sdoImageSet.rawValue)
-	private var settingImageSet = Settings.default.sdoImageSet
+	@State private var selectedImageSet = Settings.sdoImageSet()
 
 	// Resolutions
 	struct SDOResolution: Identifiable, Hashable {
@@ -48,15 +47,10 @@ struct SettingsView: View {
 
 	private let resolutions = SDOImage.Resolution.allCases.map { SDOResolution($0) }
 
-	@AppStorage(Settings.sdoResolution.rawValue)
-	private var settingResolution = Settings.default.sdoResolution
-
-	@State private var selectedResolution = Settings.default.sdoResolution
+	@State private var selectedResolution = Settings.sdoResolution()
 
 	// PFSS
-	@AppStorage(Settings.sdoPFSS.rawValue)
-	private var settingPFSS = Settings.default.sdoPFSS
-	@State private var selectedPFSS = Settings.default.sdoPFSS
+	@State private var selectedPFSS = Settings.sdoPFSS()
 
 	//TODO: It would be a nicer user experience if channel selection would disable resolutions which are not available.
 
@@ -72,14 +66,12 @@ struct SettingsView: View {
 				}
 				.pickerStyle(.segmented)
 				.onChange(of: selectedResolution) { _ in
-					settingResolution = selectedResolution
-					Settings.postChangeNotification()
+					Settings.setSDOResolution(resolution: selectedResolution)
 				}
 				Section(header: Text("Flux Lines"), footer: Text("Flux line images are not available for all channels.")) {
 					Toggle("PFSS", isOn: $selectedPFSS)
 						.onChange(of: selectedPFSS) { _ in
-							settingPFSS = selectedPFSS
-							Settings.postChangeNotification()
+							Settings.setSDOPFSS(pfss: selectedPFSS)
 						}
 				}
 				Section(header: Text("Channels")) {
@@ -90,11 +82,11 @@ struct SettingsView: View {
 								.frame(width: 64, height: 64, alignment: .center)
 							Text(imageSet.name)
 							Spacer()
-							Image(systemName: settingImageSet == imageSet.id ? "checkmark.circle" : "circle").font(.title)
+							Image(systemName: selectedImageSet == imageSet.id ? "checkmark.circle" : "circle").font(.title)
 						}
 						.onTapGesture {
-							settingImageSet = imageSet.id
-							Settings.postChangeNotification()
+							Settings.setSDOImageSet(imageSet: imageSet.id)
+							selectedImageSet = imageSet.id
 						}
 					}
 				}
