@@ -10,9 +10,18 @@ import SwiftUI
 import os
 import SolData
 
-enum SolActorError: Error {
+enum SolActorError: Error, CustomStringConvertible {
 	case noData(message: String)
 	case inProgress(message: String)
+
+	var description: String {
+		switch self {
+		case .noData(let message):
+			return "noData: \(message)"
+		case .inProgress(let message):
+			return "inProgress: \(message)"
+		}
+	}
 }
 
 actor SolActor {

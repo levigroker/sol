@@ -9,8 +9,15 @@ import UIKit
 import SwiftUI
 import os
 
-enum Sol: Error {
+enum Sol: Error, CustomStringConvertible {
 	case error(message: String)
+
+	var description: String {
+		switch self {
+		case .error(let message):
+			return "error: \(message)"
+		}
+	}
 }
 
 @MainActor

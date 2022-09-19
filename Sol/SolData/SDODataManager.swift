@@ -11,9 +11,18 @@ import os
 
 public actor SDODataManager {
 
-	public enum SDODataManagerError: Error {
-		case badURL
+	public enum SDODataManagerError: Error, CustomStringConvertible {
+		case badURL(message: String)
 		case invalidImageData(key: String)
+
+		public var description: String {
+			switch self {
+			case .badURL(let message):
+				return "badURL: \(message)"
+			case .invalidImageData(let key):
+				return "invalidImageData: \(key)"
+			}
+		}
 	}
 
 	/// Singleton

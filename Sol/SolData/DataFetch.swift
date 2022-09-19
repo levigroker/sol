@@ -13,10 +13,21 @@ Fetches data from an HTTP URL
 struct DataFetch {
 	typealias Etag = String
 
-	enum DataFetchError: Error {
+	enum DataFetchError: Error, CustomStringConvertible {
 		case invalidServerResponse
 		case invalidServerStatus(code: Int)
 		case matchingEtag(etag: String)
+
+		var description: String {
+			switch self {
+			case .invalidServerResponse:
+				return "invalidServerResponse"
+			case .invalidServerStatus(let code):
+				return "invalidServerStatus: \(code)"
+			case .matchingEtag(let etag):
+				return "matchingEtag: '\(etag)'"
+			}
+		}
 	}
 
 	let url: URL
