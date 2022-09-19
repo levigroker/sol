@@ -370,8 +370,8 @@ public actor SDODataManager {
 	static func loadRemoteListings(dir: URL) -> [String: URL] {
 		do {
 			// Make sure we have a directory to inspect
-			try FileManager.default.createDirectory(at: dataStoreRootDir, withIntermediateDirectories: true)
-			Logger().info("SDO root data directory: '\(self.dataStoreRootDir.path(percentEncoded: false))'")
+			try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+			Logger().info("SDO root data directory: '\(dir.path(percentEncoded: false))'")
 			// Get all the remoteListing files in the given directory
 			let remoteListingFiles: [String: URL] = try FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsHiddenFiles).reduce(into: [:]) { partialResult, url in
 				guard let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory, isDir == false else {
