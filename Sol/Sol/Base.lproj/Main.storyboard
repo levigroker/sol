@@ -21,7 +21,16 @@
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0V-df-P4G">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3TG-gd-2SL" userLabel="InfoButton">
+                                <rect key="frame" x="324" y="47" width="50" height="35"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system"/>
+                                <connections>
+                                    <segue destination="T7D-3z-kDa" kind="presentation" id="7uO-he-cVz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0V-df-P4G" userLabel="SettingsButton">
                                 <rect key="frame" x="323" y="775" width="51" height="35"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -36,15 +45,15 @@
                                 <rect key="frame" x="311" y="782.66666666666663" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bc-a0-HRS">
-                                <rect key="frame" x="17" y="775" width="50" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bc-a0-HRS" userLabel="SpaceWeatherButton">
+                                <rect key="frame" x="16.000000000000004" y="775" width="51.333333333333343" height="35"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="info.circle" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="sun.max" catalog="system" symbolScale="large"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="T7D-3z-kDa" kind="presentation" modalPresentationStyle="automatic" id="WGe-4E-hZb"/>
+                                    <segue destination="LoR-lC-B5L" kind="presentation" destinationCreationSelector="presentSpaceWeatherView:" id="YTD-Fv-0OR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -52,16 +61,20 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="4bc-a0-HRS" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="3Kl-SV-hCz"/>
+                            <constraint firstItem="3TG-gd-2SL" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-16" id="Cr7-1M-u2a"/>
                             <constraint firstItem="l0V-df-P4G" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Iv2-NP-pPg"/>
-                            <constraint firstItem="4bc-a0-HRS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="17" id="JS6-hX-I6U"/>
+                            <constraint firstItem="4bc-a0-HRS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="JS6-hX-I6U"/>
                             <constraint firstItem="l0V-df-P4G" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-16" id="K4v-QW-NU6"/>
+                            <constraint firstItem="3TG-gd-2SL" firstAttribute="top" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="top" priority="900" constant="16" id="KKR-cv-VQd"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="M3S-fx-HMN"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="aY7-QP-BVO"/>
                             <constraint firstItem="ngh-Sy-zgM" firstAttribute="centerY" secondItem="l0V-df-P4G" secondAttribute="centerY" id="bG5-bC-X6D"/>
                             <constraint firstItem="ngh-Sy-zgM" firstAttribute="trailing" secondItem="l0V-df-P4G" secondAttribute="leading" constant="8" symbolic="YES" id="baa-PH-bzc"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cfV-uJ-kcP"/>
+                            <constraint firstItem="3TG-gd-2SL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" symbolic="YES" id="eFp-yV-QzE"/>
                             <constraint firstItem="l0V-df-P4G" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4bc-a0-HRS" secondAttribute="trailing" constant="8" symbolic="YES" id="lxf-OE-Zml"/>
                             <constraint firstItem="id6-rH-rGx" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="pgv-Ju-hkM"/>
+                            <constraint firstItem="3TG-gd-2SL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="sE1-Eb-26x"/>
                         </constraints>
                     </view>
                     <connections>
@@ -225,7 +238,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WVR-mT-Qv1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-575" y="401"/>
+            <point key="canvasLocation" x="-688" y="18"/>
         </scene>
         <!--Settings-->
         <scene sceneID="QSJ-5k-0UW">
@@ -235,6 +248,14 @@
             </objects>
             <point key="canvasLocation" x="1045" y="18"/>
         </scene>
+        <!--Space Weather-->
+        <scene sceneID="M7Q-aI-pIz">
+            <objects>
+                <hostingController title="Space Weather" id="LoR-lC-B5L" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mGg-gv-AWt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1743" y="18"/>
+        </scene>
     </scenes>
     <resources>
         <image name="LaunchImage" width="1024" height="1024"/>
@@ -242,5 +263,6 @@
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="info.circle" catalog="system" width="128" height="123"/>
         <image name="sol" width="3201" height="933"/>
+        <image name="sun.max" catalog="system" width="128" height="125"/>
     </resources>
 </document>

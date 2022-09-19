@@ -58,6 +58,11 @@ class MainViewController: UIViewController {
 		return UIHostingController(coder: coder, rootView: SettingsView())
 	}
 
+	@IBSegueAction
+	func presentSpaceWeatherView(_ coder: NSCoder) -> UIViewController? {
+		return UIHostingController(coder: coder, rootView: SpaceWeatherView())
+	}
+
 	private let solActor = SolActor()
 	private var spinTask: Task<Void, Error>?
 }
