@@ -257,8 +257,8 @@
 				DB06A5AD28D2C9C900C67598 /* SDOImage.swift */,
 				DB17F6F228CD21B400684220 /* SolData.docc */,
 				DB17F6F128CD21B400684220 /* SolData.h */,
-				DB76242E28D7AC63009571D8 /* SWPCDataManager.swift */,
 				DB76243028D7AE39009571D8 /* SWPCAPForecast.swift */,
+				DB76242E28D7AC63009571D8 /* SWPCDataManager.swift */,
 				DB76243828D7C9C4009571D8 /* SWPCGeoAlert.swift */,
 			);
 			path = SolData;

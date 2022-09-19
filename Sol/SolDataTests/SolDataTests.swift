@@ -168,7 +168,7 @@ final class SolDataTests: XCTestCase {
 
 	// SWPCGeoAlert
 
-	func testIssuedDateFormatter100() {
+	func testSWPCGeoAlertIssuedDateFormatter100() {
 		guard let date = SWPCGeoAlert.issuedDateFormatter.date(from: "2022 Sep 18 1705 UTC") else {
 			XCTFail("Unexpectedly unable to parse date from string.")
 			return
@@ -230,5 +230,99 @@ Radio blackouts reaching the R1 level occurred.
 No space weather storms are predicted for the next 24 hours.
 """
 		XCTAssertEqual(alert.body, expectedBody)
+	}
+
+	// SWPCAPForecast
+
+	func testSWPCAPForecastIssuedDateFormatter100() {
+		guard let date = SWPCAPForecast.issuedDateFormatter.date(from: "2022 Sep 18 1705 UTC") else {
+			XCTFail("Unexpectedly unable to parse date from string.")
+			return
+		}
+		guard let utcTZ = TimeZone(identifier: "UTC") else {
+			XCTFail("Unexpectedly unable to make TimeZone from string.")
+			return
+		}
+		let components = Calendar.current.dateComponents(in: utcTZ, from: date)
+		let year = components.year
+		XCTAssertEqual(year, 2022)
+		let month = components.month
+		XCTAssertEqual(month, 9)
+		let day = components.day
+		XCTAssertEqual(day, 18)
+		let hour = components.hour
+		XCTAssertEqual(hour, 17)
+		let minute = components.minute
+		XCTAssertEqual(minute, 5)
+	}
+
+	func testSWPCAPForecastForecastDateFormatter100() {
+		guard let date = SWPCAPForecast.forecastDateFormatter.date(from: "18Sep22") else {
+			XCTFail("Unexpectedly unable to parse date from string.")
+			return
+		}
+		let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
+		let year = components.year
+		XCTAssertEqual(year, 2022)
+		let month = components.month
+		XCTAssertEqual(month, 9)
+		let day = components.day
+		XCTAssertEqual(day, 18)
+	}
+
+	func testSWPCAPForecastFromData100() async throws {
+		guard let date = SWPCGeoAlert.issuedDateFormatter.date(from: "2022 Sep 17 2119 UTC") else {
+			XCTFail("Unexpectedly unable to parse date from string.")
+			return
+		}
+		let data = """
+:Product: 45 Day AP Forecast  45DF.txt
+:Issued: 2022 Sep 17 2119 UTC
+# Prepared by the U.S. Air Force.
+# Retransmitted by the Dept. of Commerce, NOAA, Space Weather Prediction Center
+# Please send comments and suggestions to SWPC.Webmaster@noaa.gov
+#
+#
+#          45-Day AP and F10.7cm Flux Forecast
+#-------------------------------------------------------------
+45-DAY AP FORECAST
+18Sep22 012 19Sep22 008 20Sep22 005 21Sep22 005 22Sep22 005
+23Sep22 015 24Sep22 012 25Sep22 014 26Sep22 014 27Sep22 014
+28Sep22 008 29Sep22 008 30Sep22 022 01Oct22 050 02Oct22 030
+03Oct22 020 04Oct22 012 05Oct22 015 06Oct22 012 07Oct22 010
+08Oct22 008 09Oct22 005 10Oct22 010 11Oct22 008 12Oct22 005
+13Oct22 015 14Oct22 020 15Oct22 012 16Oct22 005 17Oct22 005
+18Oct22 005 19Oct22 005 20Oct22 012 21Oct22 010 22Oct22 014
+23Oct22 014 24Oct22 014 25Oct22 008 26Oct22 008 27Oct22 022
+28Oct22 050 29Oct22 030 30Oct22 020 31Oct22 012 01Nov22 015
+45-DAY F10.7 CM FLUX FORECAST
+18Sep22 130 19Sep22 125 20Sep22 125 21Sep22 122 22Sep22 120
+23Sep22 120 24Sep22 120 25Sep22 120 26Sep22 120 27Sep22 120
+28Sep22 120 29Sep22 120 30Sep22 125 01Oct22 125 02Oct22 125
+03Oct22 125 04Oct22 125 05Oct22 125 06Oct22 125 07Oct22 130
+08Oct22 130 09Oct22 150 10Oct22 148 11Oct22 143 12Oct22 140
+13Oct22 136 14Oct22 130 15Oct22 125 16Oct22 120 17Oct22 125
+18Oct22 125 19Oct22 120 20Oct22 120 21Oct22 120 22Oct22 120
+23Oct22 120 24Oct22 120 25Oct22 120 26Oct22 120 27Oct22 125
+28Oct22 125 29Oct22 125 30Oct22 125 31Oct22 125 01Nov22 125
+FORECASTER:  TROST / HOUSSEAL
+99999
+NNNN
+""".data(using: .utf8)
+		guard let data else {
+			XCTFail("Unexpectedly unable to create data from string.")
+			return
+		}
+		let alert = try SWPCAPForecast.from(data: data, etag: "foo")
+		XCTAssertEqual(alert.issuedDate, date)
+		XCTAssertEqual(alert.etag, "foo")
+		let expectedPrepared = """
+Prepared by the U.S. Air Force.
+Retransmitted by the Dept. of Commerce, NOAA, Space Weather Prediction Center
+Please send comments and suggestions to SWPC.Webmaster@noaa.gov
+"""
+		XCTAssertEqual(alert.prepared, expectedPrepared)
+		XCTAssertFalse(alert.forecastAP.isEmpty, "forecastAP is empty")
+		XCTAssertFalse(alert.forecastFlux.isEmpty, "forecastFlux is empty")
 	}
 }
