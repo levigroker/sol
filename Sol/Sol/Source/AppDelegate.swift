@@ -6,19 +6,11 @@
 //
 
 import UIKit
-import SolData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-		// Kick off a pre-fetch of what is configured in User Defaults
-		// NOTE: we don't care if this fails or need to await it here... we just want to ensure we have a head start on the expected data needs
-		Task {
-			try? await SDODataManager.shared.prefetchImages(date: Date(), imageSet: Settings.sdoImageSet(), resolution: Settings.sdoResolution(), pfss: Settings.sdoPFSS())
-		}
-
 		return true
 	}
 

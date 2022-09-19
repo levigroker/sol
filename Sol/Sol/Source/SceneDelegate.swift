@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import os
+import SolData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -41,6 +43,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneWillEnterForeground(_ scene: UIScene) {
 		// Called as the scene transitions from the background to the foreground.
 		// Use this method to undo the changes made on entering the background.
+		Logger().debug("sceneWillEnterForeground")
+
+		// Kick off a pre-fetch of what is configured in User Defaults
+		// NOTE: we don't care if this fails or need to await it here... we just want to ensure we have a head start on the expected data needs
+		Task {
+			try? await SDODataManager.shared.prefetchImages(date: Date(), imageSet: Settings.sdoImageSet(), resolution: Settings.sdoResolution(), pfss: Settings.sdoPFSS())
+		}
 	}
 
 	func sceneDidEnterBackground(_ scene: UIScene) {
