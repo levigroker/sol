@@ -50,7 +50,7 @@ public actor SDODataManager {
 	/// Populates local cache for given SDOImages
 	/// - parameter sdoImages: An array of SDOImages to pre-fetch
 	public func prefetch(sdoImages: [SDOImage]) async throws {
-		let task = Task {
+		Task {
 			for sdoImage in sdoImages {
 				let dataStore = dataStoreFor(date: sdoImage.day)
 				// Is the image already in the data store?
