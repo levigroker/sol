@@ -16,8 +16,7 @@ class AboutViewController: UIViewController {
 
 		// Dynamically update the copyright year
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .short
-		dateFormatter.timeStyle = .none
+		dateFormatter.dateFormat = "yyyy"
 		let year = dateFormatter.string(from: Date())
 		copyrightLabel.text = "© \(year) @levigroker"
 	}
