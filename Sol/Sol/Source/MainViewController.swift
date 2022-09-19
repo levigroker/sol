@@ -40,11 +40,21 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		solImageScrollView.solImageScrollViewDelegate = self
+		// Start off with the content hidden
+		solImageScrollView.alpha = 0
 
 		// Kick off a task to display the latest actual image
 		Task {
-			if let image = try? await solActor.updateSDOImages() {
+			do {
+				let image = try await solActor.updateSDOImages()
 				solImageScrollView.display(image: image)
+			}
+			catch {
+				Logger().error("Error attempting to update SDO images: \(error)")
+			}
+			// Animate the content into visibility
+			UIView.animate(withDuration: 0.25, delay: 0) {
+				self.solImageScrollView.alpha = 1
 			}
 		}
 	}
