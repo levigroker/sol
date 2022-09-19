@@ -37,6 +37,9 @@ public enum Settings: String {
 		postChangeNotification()
 	}
 
+	// NOTE: We are using a String for the type of PFSS (as opposed to Bool) so we can properly assign a default value if UserDefaults does not have a value
+	// (it will return `false` for a query against Bool if the key is not present)
+	// While our default.sdoPFSS _is_ false now, this could change and if so we would want to ensure we are assiging the desired default
 	static func sdoPFSS() -> Bool {
 		guard let string = UserDefaults.standard.string(forKey: sdoPFSS.rawValue), let value = Bool(string) else {
 			return Settings.default.sdoPFSS
