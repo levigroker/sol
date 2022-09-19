@@ -260,22 +260,25 @@ public actor SDODataManager {
 		return try await task.value
 	}
 
-	static var baseSDOImageURL: URL? {
-		guard let url = URL(string: "https://sdo.gsfc.nasa.gov/assets/img/browse") else {
-			Logger().error("Unable to create baseSDOImageURL")
-			return nil
+	static func baseSDOImageURL() throws -> URL {
+		guard let _baseSDOImageURL else {
+			guard let url = URL(string: baseSDOImageURLTxt) else {
+				throw SDODataManagerError.badURL(message: "Unexpectedly unable create URL from '\(baseSDOImageURLTxt)'")
+			}
+			Self._baseSDOImageURL = url
+			return url
 		}
-		return url
+		return _baseSDOImageURL
 	}
+	private static let baseSDOImageURLTxt = "https://sdo.gsfc.nasa.gov/assets/img/browse"
+	private static var _baseSDOImageURL: URL?
 
 	/// Gets the remote URL to the server
 	/// - parameter date: The desired day
 	/// - parameter filename: The specific filename of the file to retrieve (optional).
 	/// - returns: If `filename` is supplied, the URL returned will represent the remote file. If `filename` is nil, the URL returned will represent the directory containing images for the given day
 	static func remoteImageURLFor(date: Date, filename: String? = nil) throws -> URL {
-		guard let baseSDOImageURL = Self.baseSDOImageURL else {
-			throw SDODataManagerError.badURL
-		}
+		let baseSDOImageURL = try Self.baseSDOImageURL()
 		let year = Self.yearDateFormatter.string(from: date)
 		let month = Self.monthDateFormatter.string(from: date)
 		let day = Self.dayDateFormatter.string(from: date)
