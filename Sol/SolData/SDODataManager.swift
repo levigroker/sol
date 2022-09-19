@@ -186,7 +186,7 @@ public actor SDODataManager {
 	/// - returns: The image data for the desired image
 	static func fetchRemoteData(sdoImage: SDOImage, to dataStore: DataStore, storeFailureThrows: Bool = false) async throws -> Data {
 		let dataFetch = DataFetch(url: sdoImage.remoteURL)
-		let data = try await dataFetch.fetch()
+		let (data, _) = try await dataFetch.fetch()
 		Logger().info("Downloaded '\(sdoImage.key)'")
 		do {
 			try await dataStore.write(key: sdoImage.key, item: data)

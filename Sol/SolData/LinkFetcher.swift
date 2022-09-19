@@ -21,7 +21,7 @@ enum LinkFetcher {
 		let task = Task {
 			// Fetch the HTML data and convert to a utf8 string
 			let dataFetch = DataFetch(url: dir)
-			let htmlData = try await dataFetch.fetch()
+			let (htmlData, _) = try await dataFetch.fetch()
 			guard let htmlContent = String(data: htmlData, encoding: .utf8) else {
 				throw LinkFetcherError.invalidHTMLContent
 			}
