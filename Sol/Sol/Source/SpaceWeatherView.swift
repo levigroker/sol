@@ -67,17 +67,19 @@ struct SpaceWeatherView: View {
 		VStack {
 			Spacer()
 			HStack {
+				Text("Space Weather").font(.largeTitle)
 				Spacer()
 				Button("Done") {
 					dismiss()
 				}
-			}
+			}.padding(.horizontal)
 			Picker("Space Weather", selection: $selectedWeatherTab) {
 				ForEach(weathers) { weather in
 					Text(weather.name)
 				}
 			}
 			.pickerStyle(.segmented)
+			.padding(.horizontal)
 			.onChange(of: selectedWeatherTab) { _ in
 				Logger().info("Selected space weather '\(selectedWeatherTab.rawValue)'")
 				Weather.setSelectedWeather(Weather(selectedWeatherTab))
@@ -85,7 +87,6 @@ struct SpaceWeatherView: View {
 			selectedWeatherTab.createView()
 			Spacer()
 		}
-		.padding(.horizontal)
 		.preferredColorScheme(.dark)
 	}
 }
