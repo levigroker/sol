@@ -57,7 +57,15 @@ struct SettingsView: View {
 	@Environment(\.dismiss) private var dismiss
 
 	var body: some View {
-		NavigationView {
+		VStack {
+			Spacer()
+			HStack {
+				Text("Settings").font(.largeTitle)
+				Spacer()
+				Button("Done") {
+					dismiss()
+				}
+			}.padding(.horizontal)
 			List {
 				Section(header: Text("Resolution"), footer: Text("Smaller resolutions are faster to load and take less space.")) {
 					Picker("Resolution", selection: $selectedResolution) {
@@ -93,14 +101,8 @@ struct SettingsView: View {
 					}
 				}
 			}
-			.navigationTitle("Settings")
-			.toolbar {
-				Button("Done") {
-					dismiss()
-				}
-			}
-			.preferredColorScheme(.dark	)
 		}
+		.preferredColorScheme(.dark	)
 	}
 }
 
