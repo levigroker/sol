@@ -54,9 +54,11 @@ struct SettingsView: View {
 
 	//TODO: It would be a nicer user experience if channel selection would disable resolutions which are not available.
 
+	@Environment(\.dismiss) private var dismiss
+
 	var body: some View {
 		NavigationView {
-			List() {
+			List {
 				Section(header: Text("Resolution"), footer: Text("Smaller resolutions are faster to load and take less space.")) {
 					Picker("Resolution", selection: $selectedResolution) {
 						ForEach(resolutions) { resolution in
@@ -92,6 +94,11 @@ struct SettingsView: View {
 				}
 			}
 			.navigationTitle("Settings")
+			.toolbar {
+				Button("Done") {
+					dismiss()
+				}
+			}
 			.preferredColorScheme(.dark	)
 		}
 	}
