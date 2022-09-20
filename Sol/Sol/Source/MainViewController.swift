@@ -49,6 +49,7 @@ class MainViewController: UIViewController {
 		solImageScrollView.solImageScrollViewDelegate = self
 		// Start off with the content hidden
 		solImageScrollView.alpha = 0
+		activityIndicatorView.startAnimating()
 
 		// Kick off a task to display the latest actual image
 		Task {
@@ -63,6 +64,7 @@ class MainViewController: UIViewController {
 			UIView.animate(withDuration: 0.25, delay: 0) {
 				self.solImageScrollView.alpha = 1
 			}
+			activityIndicatorView.stopAnimating()
 		}
 	}
 
