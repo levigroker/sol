@@ -55,7 +55,7 @@ struct SWPCAPForecastView: View {
 			chartData.append(contentsOf: apChartData)
 
 			let fluxChartData = forecast.forecastFlux.map { forcastData in
-				ChartData(forecastData: forcastData, type: "f10.7cm Flux", dateFormatter: chartDateFormatter)
+				ChartData(forecastData: forcastData, type: "F10.7cm Flux", dateFormatter: chartDateFormatter)
 			}
 			chartData.append(contentsOf: fluxChartData)
 		}
