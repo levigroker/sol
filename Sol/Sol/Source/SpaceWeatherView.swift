@@ -38,7 +38,7 @@ struct SpaceWeatherView: View {
 		let id: Tab
 
 		init(_ tab: Tab) {
-			self.name = tab.rawValue
+			self.name = tab.name()
 			id = tab
 		}
 
@@ -61,25 +61,32 @@ struct SpaceWeatherView: View {
 
 	@State private var selectedWeatherTab = Weather.selectedWeather().id
 
+	@Environment(\.dismiss) private var dismiss
+
 	var body: some View {
-		NavigationView {
-			VStack {
-				Picker("Space Weather", selection: $selectedWeatherTab) {
-					ForEach(weathers) { weather in
-						Text(weather.name)
-					}
-				}
-				.pickerStyle(.segmented)
-				.onChange(of: selectedWeatherTab) { _ in
-					Logger().info("Selected space weather '\(selectedWeatherTab.rawValue)'")
-					Weather.setSelectedWeather(Weather(selectedWeatherTab))
-				}
-				selectedWeatherTab.createView()
+		VStack {
+			Spacer()
+			HStack {
 				Spacer()
+				Button("Done") {
+					dismiss()
+				}
 			}
-			.navigationTitle("Space Weather")
-			.preferredColorScheme(.dark)
+			Picker("Space Weather", selection: $selectedWeatherTab) {
+				ForEach(weathers) { weather in
+					Text(weather.name)
+				}
+			}
+			.pickerStyle(.segmented)
+			.onChange(of: selectedWeatherTab) { _ in
+				Logger().info("Selected space weather '\(selectedWeatherTab.rawValue)'")
+				Weather.setSelectedWeather(Weather(selectedWeatherTab))
+			}
+			selectedWeatherTab.createView()
+			Spacer()
 		}
+		.padding(.horizontal)
+		.preferredColorScheme(.dark)
 	}
 }
 

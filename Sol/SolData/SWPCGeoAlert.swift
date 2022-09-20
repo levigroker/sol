@@ -38,9 +38,9 @@ public struct SWPCGeoAlert: Codable {
 	}
 
 	let etag: Etag
-	let issuedDate: Date
-	let prepared: String
-	let body: String
+	public let issuedDate: Date
+	public let prepared: String
+	public let body: String
 
 	public init(etag: Etag, issuedDate: Date, prepared: String, body: String) {
 		self.etag = etag

@@ -9,23 +9,75 @@ import Foundation
 import RegexBuilder
 import os
 
-public actor SWPCDataManager {
+// Protocol encapsulating SWPCAPForecast and SWPCGeoAlert common functionality
+//protocol SWPCData {
+//	typealias Etag = String
+//
+//	func etag() -> Etag
+//	func issuedDate() -> Date
+//	func writeAs(file: URL) async throws
+//
+//	static func from(data: Data, etag: Etag) throws -> SWPCData
+//	static func readFrom(file: URL) async throws -> SWPCData
+//	static func swpcDataURL() throws -> URL
+//}
+
+public enum SWPCDataManager {
 
 	public enum SWPCDataManagerError: Error {
 		case unlikely(message: String)
 	}
 
-	/// Singleton
-	/// We only want one data manager managing things, so only create one
-	public static let shared = SWPCDataManager()
+	//TODO: Convert to generic function capable of handling both SWPCAPForecast and SWPCGeoAlert
 
-	init() {
+	public static func apForecast() async throws -> SWPCAPForecast {
+		var cachedAlert: SWPCAPForecast?
+
+		// Check for a cached version
+		try FileManager.default.createDirectory(at: dataStoreRootDir, withIntermediateDirectories: true)
+		let cachedURL = dataStoreRootDir.appending(path: Self.persistedSWPCAPForecastFilename, directoryHint: .notDirectory)
+		do {
+			let alert = try await SWPCAPForecast.readFrom(file: cachedURL)
+			cachedAlert = alert
+		}
+		catch {
+			Logger().warning("Unable to read persisted SWPCAPForecast from '\(cachedURL.path(percentEncoded: false))'. Error: \(error)")
+		}
+
+		let url = try SWPCAPForecast.swpcDataURL()
+		let dataFetch = DataFetch(url: url)
+
+		do {
+			let (data, etag) = try await dataFetch.fetchIfNonMatching(etag: cachedAlert?.etag)
+			let alert = try SWPCAPForecast.from(data: data, etag: etag ?? "<unknown>")
+			Logger().info("SWPCAPForecast (downloaded) issued: \(alert.issuedDate)")
+			do {
+				try await alert.writeAs(file: cachedURL)
+			}
+			catch {
+				Logger().error("Unable to write SWPCAPForecast to '\(cachedURL.path(percentEncoded: false))'. Error: \(error)")
+			}
+			return alert
+		}
+		catch {
+			switch error {
+			case DataFetch.DataFetchError.matchingEtag:
+				guard let cachedAlert else {
+					throw SWPCDataManagerError.unlikely(message: "cachedAlert unexpectedly nil")
+				}
+				Logger().info("SWPCAPForecast (cached) issued: \(cachedAlert.issuedDate)")
+				return cachedAlert
+			default:
+				throw error
+			}
+		}
 	}
 
-	static func geoAlert() async throws -> SWPCGeoAlert {
+	public static func geoAlert() async throws -> SWPCGeoAlert {
 		var cachedAlert: SWPCGeoAlert?
 
 		// Check for a cached version
+		try FileManager.default.createDirectory(at: dataStoreRootDir, withIntermediateDirectories: true)
 		let cachedURL = dataStoreRootDir.appending(path: Self.persistedSWPCGeoAlertFilename, directoryHint: .notDirectory)
 		do {
 			let alert = try await SWPCGeoAlert.readFrom(file: cachedURL)
@@ -42,7 +94,12 @@ public actor SWPCDataManager {
 			let (data, etag) = try await dataFetch.fetchIfNonMatching(etag: cachedAlert?.etag)
 			let alert = try SWPCGeoAlert.from(data: data, etag: etag ?? "<unknown>")
 			Logger().info("SWPCGeoAlert (downloaded) issued: \(alert.issuedDate)")
-			try await alert.writeAs(file: cachedURL)
+			do {
+				try await alert.writeAs(file: cachedURL)
+			}
+			catch {
+				Logger().error("Unable to write SWPCGeoAlert to '\(cachedURL.path(percentEncoded: false))'. Error: \(error)")
+			}
 			return alert
 		}
 		catch {
@@ -59,7 +116,6 @@ public actor SWPCDataManager {
 		}
 	}
 
-
 	/// The root directory to store SWPC data
 	private static var dataStoreRootDir: URL {
 		var baseURL: URL
@@ -74,6 +130,6 @@ public actor SWPCDataManager {
 		return baseURL
 	}
 
-
+	private static let persistedSWPCAPForecastFilename = "SWPCAPForecast.json"
 	private static let persistedSWPCGeoAlertFilename = "SWPCGeoAlert.json"
 }

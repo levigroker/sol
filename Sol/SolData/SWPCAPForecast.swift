@@ -54,13 +54,30 @@ public struct SWPCAPForecast: Codable {
 		case badData(message: String)
 	}
 
-	let etag: Etag
-	let issuedDate: Date
-	let prepared: String
-	let forecastAP: [Date: Int]
-	let forecastFlux: [Date: Int]
+	public struct ForecastData: Identifiable, Codable, Comparable {
 
-	public init(etag: Etag, issuedDate: Date, prepared: String, forecastAP: [Date: Int], forecastFlux: [Date: Int]) {
+		public let id: TimeInterval
+		public let date: Date
+		public let value: Int
+
+		init(date: Date, value: Int) {
+			self.date = date
+			self.value = value
+			self.id = date.timeIntervalSince1970
+		}
+
+		public static func < (lhs: SWPCAPForecast.ForecastData, rhs: SWPCAPForecast.ForecastData) -> Bool {
+			lhs.date < rhs.date
+		}
+	}
+
+	let etag: Etag
+	public let issuedDate: Date
+	public let prepared: String
+	public let forecastAP: [ForecastData]
+	public let forecastFlux: [ForecastData]
+
+	public init(etag: Etag, issuedDate: Date, prepared: String, forecastAP: [ForecastData], forecastFlux: [ForecastData]) {
 		self.etag = etag
 		self.issuedDate = issuedDate
 		self.prepared = prepared
@@ -136,7 +153,7 @@ public struct SWPCAPForecast: Codable {
 		return SWPCAPForecast(etag: etag, issuedDate: issuedDate, prepared: preparedText, forecastAP: apData, forecastFlux: fluxData)
 	}
 
-	static func forecastDataFrom(text: String) throws -> [Date: Int] {
+	static func forecastDataFrom(text: String) throws -> [ForecastData] {
 		// Match date/value pairs (like "18Sep22 012") with regex (like "(?<date>[0-9]{2}[A-Za-z]{3}[0-9]{2}) (?<val>[0-9]{3})"
 		let date = Reference(Substring.self)
 		let val = Reference(Substring.self)
@@ -168,7 +185,7 @@ public struct SWPCAPForecast: Codable {
 
 		let matches = text.matches(of: forecast)
 
-		var forecastData = [Date: Int]()
+		var forecastData = [ForecastData]()
 		for match in matches {
 			let dateTxt = String(match[date])
 			let valTxt = String(match[val])
@@ -177,13 +194,13 @@ public struct SWPCAPForecast: Codable {
 			guard let date else {
 				throw SWPCAPForecastError.badData(message: "[forecastAP] unable to interpret '\(dateTxt)' as Date")
 			}
-			let val = Int(valTxt)
-			guard let val else {
+			let value = Int(valTxt)
+			guard let value else {
 				throw SWPCAPForecastError.badData(message: "[forecastAP] unable to interpret '\(valTxt)' as Int")
 			}
-			forecastData[date] = val
+			forecastData.append(ForecastData(date: date, value: value))
 		}
-		return forecastData
+		return forecastData.sorted()
 	}
 
 	static func readFrom(file: URL) async throws -> SWPCAPForecast {
