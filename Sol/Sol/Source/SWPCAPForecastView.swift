@@ -80,7 +80,13 @@ struct SWPCAPForecastView: View {
 							.foregroundStyle(by: .value("Type", "Series \($0.type)"))
 						}
 					}
-					.chartXAxisLabel("ads", alignment: .center)
+					.chartXAxis {
+						AxisMarks(position: .bottom, values: .automatic) { value in
+							AxisGridLine(centered: true, stroke: StrokeStyle(dash: [1, 2]))
+							AxisTick(centered: true, stroke: StrokeStyle(dash: [1, 2]))
+							AxisValueLabel(collisionResolution: .greedy, orientation: .verticalReversed)
+						}
+					}
 					.frame(height: 250)
 				}
 				Section("Credit") {
